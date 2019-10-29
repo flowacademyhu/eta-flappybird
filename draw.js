@@ -38,4 +38,9 @@ const draw = (foreGround, backGround) => {
     console.log();
   }
 };
-draw(backG, foreG);
+
+module.exports = {
+  draw: draw
+};
+
+// draw(backG, foreG);
