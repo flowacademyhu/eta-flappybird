@@ -27,18 +27,24 @@ const shiftAreaWithPipes = (backGroundChar, area) => {
 };
 
 // test
-const createPlayArea = (row, col) => {
-  return Array(row).fill().map(() => (Array(col).fill(' ')));
+const createPlayArea = (char, row, col) => {
+  return Array(row).fill().map(() => (Array(col).fill(char)));
 };
 
-const matrix = createPlayArea(8, 10);
-createPipe('p', 5, 1, 3, 2, matrix);
+const bcChar = 0;
+const pipeChar = 5;
+
+const matrix = createPlayArea(bcChar, 8, 20);
+console.clear();
 console.log(matrix);
-shiftAreaWithPipes(' ', matrix);
-console.log(matrix);
+let count = 0;
 
 setInterval(() => {
   console.clear();
-  shiftAreaWithPipes(' ', matrix);
+  if (count % 5 === 0) {
+    createPipe(pipeChar, 18, 1, 3, 2, matrix);
+  }
+  shiftAreaWithPipes(bcChar, matrix);
   console.log(matrix);
+  count++;
 }, 1000);
