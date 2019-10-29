@@ -26,6 +26,12 @@ const shiftAreaWithPipes = (backGroundChar, area) => {
   }
 };
 
+module.exports = {
+  createPipe: createPipe,
+  getPipeColIndexes: getPipeColIndexes,
+  shiftAreaWithPipes: shiftAreaWithPipes
+};
+
 // test
 const createPlayArea = (char, row, col) => {
   return Array(row).fill().map(() => (Array(col).fill(char)));
