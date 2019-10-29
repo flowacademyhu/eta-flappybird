@@ -1,3 +1,6 @@
+const createPlayArea = (backgroundChar, row, col) => {
+  return Array(row).fill().map(() => (Array(col).fill(backgroundChar)));
+};
 
 const createPipe = (pipeChar, col, width, gapStartLoc, gapLength, matrix) => {
   const colIndexes = getPipeColIndexes(matrix.length, gapStartLoc, gapLength);
@@ -19,7 +22,7 @@ const getPipeColIndexes = (PipeLength, gapStartLoc, gapLength) => {
   return colIndexes;
 };
 
-const shiftAreaWithPipes = (backGroundChar, area) => {
+const shiftPlayArea = (backGroundChar, area) => {
   for (const i of area) {
     i.shift();
     i.push(backGroundChar);
@@ -29,28 +32,26 @@ const shiftAreaWithPipes = (backGroundChar, area) => {
 module.exports = {
   createPipe: createPipe,
   getPipeColIndexes: getPipeColIndexes,
-  shiftAreaWithPipes: shiftAreaWithPipes
+  shiftPlayArea: shiftPlayArea,
+  createPlayArea: createPlayArea
 };
 
 // test
-const createPlayArea = (char, row, col) => {
-  return Array(row).fill().map(() => (Array(col).fill(char)));
-};
 
-const bcChar = 0;
-const pipeChar = 5;
+// const bcChar = 0;
+// const pipeChar = 5;
 
-const matrix = createPlayArea(bcChar, 8, 20);
-console.clear();
-console.log(matrix);
-let count = 0;
+// const matrix = createPlayArea(bcChar, 8, 20);
+// console.clear();
+// console.log(matrix);
+// let count = 0;
 
-setInterval(() => {
-  console.clear();
-  if (count % 5 === 0) {
-    createPipe(pipeChar, 18, 1, 3, 2, matrix);
-  }
-  shiftAreaWithPipes(bcChar, matrix);
-  console.log(matrix);
-  count++;
-}, 1000);
+// setInterval(() => {
+//   console.clear();
+//   if (count % 5 === 0) {
+//     createPipe(pipeChar, 18, 1, 3, 2, matrix);
+//   }
+//   shiftPlayArea(bcChar, matrix);
+//   console.log(matrix);
+//   count++;
+// }, 1000);

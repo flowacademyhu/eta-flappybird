@@ -1,24 +1,18 @@
+const pipe = require('./pipe');
+
 let playArea;
-let rowLength;
-let colLength;
+const rowLength = 20;
+const colLength = 80;
 const birdChar = 'B';
 const pipeChar = 'P';
 const backgroundChar = ' ';
 
-const createPlayArea = (row, col) => {
-  return Array(row).fill().map(() => (Array(col).fill(0)));
-};
+playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
+pipe.createPipe(pipeChar, 78, 1, 9, 3, playArea);
 
-const putInBird = (row, col, area) => {
-  for (let i = -1; i < 2; i++) {
-    for (let j = -1; j < 2; j++) {
-      area[row + i][col + j] = birdChar;
-    }
-  }
-};
-
-// teszt
-playArea = createPlayArea(6, 6);
-putInBird(3, 3, playArea);
-
+console.clear();
 console.log(playArea);
+
+setInterval(() => {
+
+}, 1000);
