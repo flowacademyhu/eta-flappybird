@@ -5,7 +5,7 @@ const bird = require('./bird');
 /** global variables **/
 let playArea;
 const rowLength = 20;
-const colLength = 40;
+const colLength = 70;
 const birdChar = 'B';
 const pipeChar = 'P';
 const backgroundChar = ' ';
@@ -24,9 +24,9 @@ let countRounds = 0;
 setInterval(() => {
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
-  if (countRounds % 30 === 0) {
-    const rp = pipe.getRandomPipeParams(3, 6, 6, 12, 3, 5);
-    pipe.createPipe(pipeChar, colLength - 6, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
+  if (countRounds % 45 === 0) {
+    const rp = pipe.getRandomPipeParams(3, 6, 6, 12, 4, 6);
+    pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
   }
   if (countRounds % 3 === 0) {
     pipe.shiftPlayArea(backgroundChar, playArea);
