@@ -22,6 +22,7 @@ draw.draw(playArea);
 /** interval **/
 let countRounds = 0;
 setInterval(() => {
+  bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
   if (countRounds % 30 === 0) {
     pipe.createPipe(pipeChar, colLength - 2, 1, 5, 10, playArea);
@@ -33,7 +34,6 @@ setInterval(() => {
     birdSpeed--;
   }
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
-  bird.removeBirdFromPlayArea(birdChar, backgroundChar, playArea);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   draw.draw(playArea);
   countRounds++;

@@ -28,11 +28,13 @@ const putBirdInPlayArea = (birdChar, coordinates, area) => {
   }
 };
 
-const removeBirdFromPlayArea = (birdChar, backgroundChar, area) => {
-  for (const arr of area) {
-    arr.forEach((val, i) => {
-      if (val === birdChar) arr[i] = backgroundChar;
-    });
+const removeBirdFromPlayArea = (backGroundChar, coordinates, area) => {
+  for (const i of coordinates) {
+    const row = i[0];
+    const col = i[1];
+    if (area[row] !== undefined) {
+      area[row][col] = backGroundChar;
+    }
   }
 };
 
