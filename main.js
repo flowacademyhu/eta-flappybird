@@ -25,7 +25,8 @@ setInterval(() => {
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
   if (countRounds % 30 === 0) {
-    pipe.createPipe(pipeChar, colLength - 2, 1, 5, 10, playArea);
+    const rp = pipe.getRandomPipeParams(3, 6, 6, 12, 3, 5);
+    pipe.createPipe(pipeChar, colLength - 6, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
   }
   if (countRounds % 3 === 0) {
     pipe.shiftPlayArea(backgroundChar, playArea);
