@@ -29,13 +29,18 @@ const draw = (foreGround, backGround) => {
     let line = '';
     for (let j = 0; j < foreGround[i].length; j++) {
       if (foreGround[i][j] === '0') {
-        line = line + backGround[i][j] + ' ';
+        line = line + backGround[i][j];
       } else {
-        line = line + foreGround[i][j] + ' ';
+        line = line + foreGround[i][j];
       }
     }
     process.stdout.write(line);
     console.log();
   }
 };
-draw(backG, foreG);
+
+module.exports = {
+  draw: draw
+};
+
+// draw(backG, foreG);
