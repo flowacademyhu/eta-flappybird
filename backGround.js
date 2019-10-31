@@ -1,36 +1,42 @@
-const sunChar = 'S';
-const cloudChar = 'C';
-const hillsChar = '~';
+// two array-generators for testing
+let frGrnd = Array(100)
+  .fill()
+  .map(() => Array(150).fill('0'));
 
-const createPlayArea = (row, col) => {
-  return Array(row)
-    .fill()
-    .map(() => Array(col).fill(0));
-};
+let bckGrnd = Array(100)
+  .fill()
+  .map(() => Array(150).fill(' '));
 
-const createBackground = screen => {
-  let sunHeight = Math.ceil(screen.length / 6);
-  let sunWidth = Math.ceil(screen[0].length / 6);
-  for (let s = -1; s < 2; s++) {
-    for (let u = -1; u < 2; u++) {
-      screen[sunHeight + s][sunWidth + u] = sunChar;
-    }
+// function, fills the coloumns with letter 'H'
+const fillColoumn = (index, newHght) => {
+  for (let i = bckGrnd.length - 1; i > bckGrnd.length - 1 - newHght; i--) {
+    bckGrnd[i][index] = 'H';
   }
-  let cloudHeight = Math.ceil(screen.length / 3);
-  let cloudWidth = Math.floor(screen[0].length / 3);
-  for (let c = -1; c < 1; c++) {
-    for (let l = -2; l < 4; l++) {
-      screen[cloudHeight + c][cloudWidth + l] = cloudChar;
-    }
-  } /*
-  let hillsHeight = Math.floor((screen.length / 4) * 3);
-  let hillsWidth = screen[0].length;
-  for (let h = 0; h < screen.length; h++) {
-    for (let i = 0; i < hillsWidth; i++) {
-      screen[hillsHeight][i] = hillsChar;
-    }
-  }*/
 };
-let screenArr = createPlayArea(20, 20);
-createBackground(screenArr);
-console.log(screenArr);
+
+// driver function, generates random height for next coloumn, based on prev. height
+let height = [6];
+for (let j = 0; j <= bckGrnd[0].length - 1; j++) {
+  const min = height[0] - 1;
+  const max = height[0] + 1;
+  const newHght = Math.random() * (max - min) + min;
+  fillColoumn(j, newHght);
+  height[0] = newHght;
+}
+
+// imported draw function for testing
+const draw = (foreGround, backGround) => {
+  for (let i = 0; i < foreGround.length; i++) {
+    let line = '';
+    for (let j = 0; j < foreGround[i].length; j++) {
+      if (foreGround[i][j] === '0') {
+        line = line + backGround[i][j];
+      } else {
+        line = line + foreGround[i][j];
+      }
+    }
+    process.stdout.write(line);
+    console.log();
+  }
+};
+draw(frGrnd, bckGrnd);
