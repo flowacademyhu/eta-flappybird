@@ -1,12 +1,5 @@
-
-const createPipe = (pipeChar, col, width, gapStartLoc, gapLength, matrix) => {
-  const colIndexes = getPipeColIndexes(matrix.length, gapStartLoc, gapLength);
-
-  for (const i of colIndexes) {
-    for (let j = -width; j <= width; j++) {
-      matrix[i][col + j] = pipeChar;
-    }
-  }
+const createPlayArea = (backgroundChar, row, col) => {
+  return Array(row).fill().map(() => (Array(col).fill(backgroundChar)));
 };
 
 const getPipeColIndexes = (PipeLength, gapStartLoc, gapLength) => {
@@ -19,26 +12,58 @@ const getPipeColIndexes = (PipeLength, gapStartLoc, gapLength) => {
   return colIndexes;
 };
 
-const shiftAreaWithPipes = (backGroundChar, area) => {
+const createPipe = (pipeChar, col, width, gapStartLoc, gapLength, matrix) => {
+  const colIndexes = getPipeColIndexes(matrix.length, gapStartLoc, gapLength);
+
+  for (const i of colIndexes) {
+    for (let j = 0; j < width; j++) {
+      matrix[i][col + j] = pipeChar;
+    }
+  }
+};
+
+const getRand = (min, max) => {
+  return Math.floor(Math.random() * (max + 1 - min) + min);
+};
+
+const getRandomPipeParams = (minGapStart, maxGapStart, minGapLen, maxGapLen, minWidth = 3, maxWidth = 3) => {
+  return {
+    gapStartLoc: getRand(minGapStart, maxGapStart),
+    gapLength: getRand(minGapLen, maxGapLen),
+    width: getRand(minWidth, maxWidth)
+  };
+};
+
+const shiftPlayArea = (backGroundChar, area) => {
   for (const i of area) {
     i.shift();
     i.push(backGroundChar);
   }
 };
 
-// test
-const createPlayArea = (row, col) => {
-  return Array(row).fill().map(() => (Array(col).fill(' ')));
+module.exports = {
+  createPipe: createPipe,
+  getRandomPipeParams: getRandomPipeParams,
+  shiftPlayArea: shiftPlayArea,
+  createPlayArea: createPlayArea
 };
 
-const matrix = createPlayArea(8, 10);
-createPipe('p', 5, 1, 3, 2, matrix);
-console.log(matrix);
-shiftAreaWithPipes(' ', matrix);
-console.log(matrix);
+// test
 
-setInterval(() => {
-  console.clear();
-  shiftAreaWithPipes(' ', matrix);
-  console.log(matrix);
-}, 1000);
+// const bcChar = 0;
+// const pipeChar = 5;
+
+// const matrix = createPlayArea(bcChar, 8, 20);
+// console.clear();
+// console.log(matrix);
+// let count = 0;
+
+// setInterval(() => {
+//   console.clear();
+//   if (count % 5 === 0) {
+//     createPipe(pipeChar, 18, 1, 3, 2, matrix);
+//   }
+//   shiftPlayArea(bcChar, matrix);
+//   console.log(matrix);
+//   count++;
+// }, 1000);

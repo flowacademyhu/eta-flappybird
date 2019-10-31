@@ -1,24 +1,55 @@
+const pipe = require('./pipe');
+const draw = require('./draw');
+const bird = require('./bird');
+
+/** global variables **/
 let playArea;
-let rowLength;
-let colLength;
+const rowLength = 20;
+const colLength = 70;
 const birdChar = 'B';
 const pipeChar = 'P';
 const backgroundChar = ' ';
+let birdSpeed = 0;
+const birdFlyAcceleration = 2;
+const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
 
-const createPlayArea = (row, col) => {
-  return Array(row).fill().map(() => (Array(col).fill(0)));
-};
+/** setting up and drawing playArea */
+playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
+bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
+console.clear();
+draw.draw(playArea);
 
-const putInBird = (row, col, area) => {
-  for (let i = -1; i < 2; i++) {
-    for (let j = -1; j < 2; j++) {
-      area[row + i][col + j] = birdChar;
-    }
+/** interval **/
+let countRounds = 0;
+setInterval(() => {
+  bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
+  console.clear();
+  if (countRounds % 45 === 0) {
+    const rp = pipe.getRandomPipeParams(3, 6, 6, 12, 4, 6);
+    pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
   }
-};
+  if (countRounds % 3 === 0) {
+    pipe.shiftPlayArea(backgroundChar, playArea);
+  }
+  if (countRounds % 2 === 0 && birdSpeed > -1) {
+    birdSpeed--;
+  }
+  bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
+  bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
+  draw.draw(playArea);
+  countRounds++;
+}, 50);
 
-// teszt
-playArea = createPlayArea(6, 6);
-putInBird(3, 3, playArea);
-
-console.log(playArea);
+/** standard input **/
+const stdin = process.stdin;
+stdin.setRawMode(true);
+stdin.resume();
+stdin.setEncoding('utf-8');
+stdin.on('data', (key) => {
+  if (key === 'q') {
+    process.exit();
+  }
+  if (key === 'w') {
+    birdSpeed = birdFlyAcceleration;
+  }
+});
