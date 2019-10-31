@@ -17,7 +17,7 @@ const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
 playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
 bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
 console.clear();
-draw.draw(playArea);
+draw.drawWithAxel(playArea);
 
 /** interval **/
 let countRounds = 0;
@@ -36,7 +36,7 @@ setInterval(() => {
   }
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
-  draw.draw(playArea);
+  draw.drawWithAxel(playArea);
   countRounds++;
 }, 50);
 

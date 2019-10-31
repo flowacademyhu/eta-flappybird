@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/flowacademyhu/eta-flappybird/issues"
   },
-  "homepage": "https://github.com/flowacademyhu/eta-flappybird#readme"
+  "homepage": "https://github.com/flowacademyhu/eta-flappybird#readme",
+  "dependencies": {
+    "axel": "0.0.3"
+  }
 }

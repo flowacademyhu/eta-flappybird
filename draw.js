@@ -1,3 +1,5 @@
+const axel = require('axel');
+
 const foreG = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -39,8 +41,28 @@ const draw = (foreGround, backGround) => {
   }
 };
 
-module.exports = {
-  draw: draw
+// nem túl szép
+const drawWithAxel = (foreGround, birdChar = 'B', pipeChar = 'P') => {
+  console.clear();
+  for (let i = 0; i < foreGround.length; i++) {
+    for (let j = 0; j < foreGround[0].length; j++) {
+      switch (foreGround[i][j]) {
+        case birdChar:
+          axel.bg(255, 0, 0);
+          break;
+        case pipeChar:
+          axel.bg(0, 255, 0);
+          break;
+        default:
+          axel.bg(255, 255, 255);
+          break;
+      }
+      axel.box(j + 1, i + 1, 1, 1);
+    }
+  }
 };
 
-// draw(backG, foreG);
+module.exports = {
+  draw: draw,
+  drawWithAxel: drawWithAxel
+};
