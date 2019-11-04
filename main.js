@@ -6,19 +6,23 @@ const bckG = require('./backGround');
 /** global variables **/
 let playArea;
 let playBackGround;
-const rowLength = 30; // height of screen
-const colLength = 100; // width of screen
+const rowLength = 40; // height of screen
+const colLength = 120; // width of screen
 const birdChar = 'B';
-const pipeChar = '█';
+const pipeChar = '▒';
+const sunChar = '█';
+const groundChar = '~';
+const hillsChar = '░';
 const backgroundChar = '0'; // filling of foreGround blank areas
+const backLayerChar = '▓'; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
 
 /** setting up and drawing playArea */
 playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
-playBackGround = bckG.bckGrnd(rowLength, colLength);
-bckG.putInSun(playBackGround);
+playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
+bckG.putInSun(playBackGround, sunChar, hillsChar);
 bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
 console.clear();
 draw.draw(playArea, playBackGround);
@@ -27,7 +31,7 @@ const hillsHeight = [Math.floor(playBackGround.length / 3)];
 /** interval **/
 let countRounds = 0;
 setInterval(() => {
-  bckG.removeSun(' ', playBackGround);
+  bckG.removeSun(backLayerChar, playBackGround, sunChar);
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
   if (countRounds % 45 === 0) {
@@ -47,7 +51,7 @@ setInterval(() => {
   }
   if (countRounds % 7 === 0) {
     // moves the hills on backGround
-    pipe.shiftPlayArea(' ', playBackGround);
+    pipe.shiftPlayArea(backLayerChar, playBackGround);
   }
   if (countRounds % 2 === 0 && birdSpeed > -1) {
     birdSpeed--;
@@ -67,7 +71,7 @@ setInterval(() => {
       if (newHght > rowLength * 0.85) {
         newHght -= 2;
       }
-      bckG.fillColoumn(j, newHght, playBackGround);
+      bckG.fillColoumn(j, newHght, playBackGround, groundChar, hillsChar);
       hillsHeight[0] = newHght;
     }
   }
@@ -83,15 +87,21 @@ setInterval(() => {
     if (newHght > rowLength * 0.85) {
       newHght -= 1;
     }
-    bckG.fillColoumn(playBackGround[0].length - 1, newHght, playBackGround);
+    bckG.fillColoumn(
+      playBackGround[0].length - 1,
+      newHght,
+      playBackGround,
+      groundChar,
+      hillsChar
+    );
     hillsHeight[0] = newHght;
   }
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
-  bckG.putInSun(playBackGround);
+  bckG.putInSun(playBackGround, sunChar, hillsChar);
   draw.draw(playArea, playBackGround);
   countRounds++;
-}, 60);
+}, 50);
 
 /** standard input **/
 const stdin = process.stdin;
