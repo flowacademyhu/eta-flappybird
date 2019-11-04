@@ -1,36 +1,110 @@
-const sunChar = 'S';
-const cloudChar = 'C';
-const hillsChar = '~';
-
-const createPlayArea = (row, col) => {
+const bckGrnd = (backLayerChar, row, col) => {
   return Array(row)
     .fill()
-    .map(() => Array(col).fill(0));
+    .map(() => Array(col).fill(backLayerChar));
 };
 
-const createBackground = screen => {
-  let sunHeight = Math.ceil(screen.length / 6);
-  let sunWidth = Math.ceil(screen[0].length / 6);
-  for (let s = -1; s < 2; s++) {
-    for (let u = -1; u < 2; u++) {
-      screen[sunHeight + s][sunWidth + u] = sunChar;
+const putInSun = (screen, sunChar, hillsChar) => {
+  const sunHeight = Math.ceil(screen.length / 6);
+  const sunWidth = Math.ceil(screen[0].length / 6);
+  for (let s = -2; s < 2; s++) {
+    if (s === -2 || s === 1) {
+      for (let u = -2; u < 3; u++) {
+        if (screen[sunHeight + s][sunWidth + u] !== hillsChar) {
+          screen[sunHeight + s][sunWidth + u] = sunChar;
+        }
+      }
+    } else {
+      for (let u = -3; u < 4; u++) {
+        if (screen[sunHeight + s][sunWidth + u] !== hillsChar) {
+          screen[sunHeight + s][sunWidth + u] = sunChar;
+        }
+      }
     }
   }
-  let cloudHeight = Math.ceil(screen.length / 3);
-  let cloudWidth = Math.floor(screen[0].length / 3);
-  for (let c = -1; c < 1; c++) {
-    for (let l = -2; l < 4; l++) {
-      screen[cloudHeight + c][cloudWidth + l] = cloudChar;
-    }
-  } /*
-  let hillsHeight = Math.floor((screen.length / 4) * 3);
-  let hillsWidth = screen[0].length;
-  for (let h = 0; h < screen.length; h++) {
-    for (let i = 0; i < hillsWidth; i++) {
-      screen[hillsHeight][i] = hillsChar;
-    }
-  }*/
 };
-let screenArr = createPlayArea(20, 20);
-createBackground(screenArr);
-console.log(screenArr);
+
+const removeSun = (backLayerChar, screen, sunChar) => {
+  for (let i = 0; i < screen.length; i++) {
+    for (let j = 0; j < screen[0].length; j++) {
+      if (screen[i][j] === sunChar) {
+        screen[i][j] = backLayerChar;
+      }
+    }
+  }
+};
+
+const fillColoumn = (index, newHght, playBackGround, groundChar, hillsChar) => {
+  for (
+    let i = playBackGround.length - 1;
+    i > playBackGround.length - 1 - newHght;
+    i--
+  ) {
+    if (i > playBackGround.length * 0.8) {
+      playBackGround[i][index] = groundChar;
+    } else {
+      playBackGround[i][index] = hillsChar;
+    }
+  }
+};
+
+const generateStartBackground = (
+  playBackGround,
+  hillsHeight,
+  groundChar,
+  hillsChar
+) => {
+  // generates a full "landscape" of hills at start
+  for (let j = 0; j <= playBackGround[0].length - 1; j++) {
+    let newHght = hillsHeight[0];
+    if (j % 2 === 0) {
+      const min = hillsHeight[0] - 1;
+      const max = hillsHeight[0] + 1;
+      newHght = Math.random() * (max - min) + min;
+    }
+    if (newHght < playBackGround.length * 0.3) {
+      newHght += 2;
+    }
+    if (newHght > playBackGround[0].length * 0.85) {
+      newHght -= 2;
+    }
+    fillColoumn(j, newHght, playBackGround, groundChar, hillsChar);
+    hillsHeight[0] = newHght;
+  }
+};
+
+const appendBackground = (
+  hillsHeight,
+  playBackGround,
+  groundChar,
+  hillsChar
+) => {
+  // generates new "hills" (coloumns) after frame 0
+  let newHght = hillsHeight[0];
+  const min = hillsHeight[0] - 1;
+  const max = hillsHeight[0] + 1;
+  newHght = Math.random() * (max - min) + min;
+  if (newHght < playBackGround.length * 0.4) {
+    newHght += 1;
+  }
+  if (newHght > playBackGround.length * 0.85) {
+    newHght -= 1;
+  }
+  fillColoumn(
+    playBackGround[0].length - 1,
+    newHght,
+    playBackGround,
+    groundChar,
+    hillsChar
+  );
+  hillsHeight[0] = newHght;
+};
+
+module.exports = {
+  bckGrnd: bckGrnd,
+  putInSun: putInSun,
+  removeSun: removeSun,
+  fillColoumn: fillColoumn,
+  generateStartBackground: generateStartBackground,
+  appendBackground: appendBackground
+};
