@@ -28,14 +28,7 @@ const getRand = (min, max) => {
   return Math.floor(Math.random() * (max + 1 - min) + min);
 };
 
-const getRandomPipeParams = (
-  minGapStart,
-  maxGapStart,
-  minGapLen,
-  maxGapLen,
-  minWidth = 3,
-  maxWidth = 3
-) => {
+const getRandomPipeParams = (minGapStart, maxGapStart, minGapLen, maxGapLen, minWidth = 3, maxWidth = 3) => {
   return {
     gapStartLoc: getRand(minGapStart, maxGapStart),
     gapLength: getRand(minGapLen, maxGapLen),

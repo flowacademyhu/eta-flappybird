@@ -3,19 +3,21 @@ const draw = require('./draw');
 const bird = require('./bird');
 const bckG = require('./backGround');
 const collision = require('./collision');
+const colors = require('colors');
+colors.enable();
 
 /** global variables **/
 let playArea;
 let playBackGround;
-const rowLength = 40; // height of screen
-const colLength = 120; // width of screen
-const birdChar = 'B';
-const pipeChar = '▒';
-const sunChar = '█';
-const groundChar = '~';
-const hillsChar = '░';
+const rowLength = 30; // height of screen
+const colLength = 70; // width of screen
+const birdChar = '█'.red;
+const pipeChar = '▒'.brightGreen;
+const sunChar = '█'.yellow;
+const groundChar = '\\'.inverse.black;
+const hillsChar = '░'.green;
 const backgroundChar = '0'; // filling of foreGround blank areas
-const backLayerChar = '▓'; // filling of backGround blank areas
+const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
@@ -25,12 +27,7 @@ playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
 playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
 const hillsHeight = [Math.floor(playBackGround.length / 3)];
 bckG.putInSun(playBackGround, sunChar, hillsChar);
-bckG.generateStartBackground(
-  playBackGround,
-  hillsHeight,
-  groundChar,
-  hillsChar
-);
+bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
 bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
 console.clear();
 draw.draw(playArea, playBackGround);
@@ -44,14 +41,7 @@ setInterval(() => {
   console.clear();
   if (countRounds % 35 === 0) {
     const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
-    pipe.createPipe(
-      pipeChar,
-      colLength - 9,
-      rp.width,
-      rp.gapStartLoc,
-      rp.gapLength,
-      playArea
-    );
+    pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
   }
   if (countRounds % 1 === 0) {
     // moves the pipes
