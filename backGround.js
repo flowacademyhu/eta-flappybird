@@ -48,7 +48,13 @@ const fillColoumn = (index, newHght, playBackGround, groundChar, hillsChar) => {
   }
 };
 
-const generateStartBackground = (playBackGround, hillsHeight, groundChar, hillsChar) => {
+const generateStartBackground = (
+  playBackGround,
+  hillsHeight,
+  groundChar,
+  hillsChar
+) => {
+  // generates a full "landscape" of hills at start
   for (let j = 0; j <= playBackGround[0].length - 1; j++) {
     let newHght = hillsHeight[0];
     if (j % 2 === 0) {
@@ -67,7 +73,12 @@ const generateStartBackground = (playBackGround, hillsHeight, groundChar, hillsC
   }
 };
 
-const appendBackground = (hillsHeight, playBackGround, groundChar, hillsChar) => {
+const appendBackground = (
+  hillsHeight,
+  playBackGround,
+  groundChar,
+  hillsChar
+) => {
   // generates new "hills" (coloumns) after frame 0
   let newHght = hillsHeight[0];
   const min = hillsHeight[0] - 1;
