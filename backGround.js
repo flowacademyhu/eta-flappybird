@@ -48,9 +48,52 @@ const fillColoumn = (index, newHght, playBackGround, groundChar, hillsChar) => {
   }
 };
 
+const generateStartBackground = (playBackGround, hillsHeight, groundChar, hillsChar) => {
+  for (let j = 0; j <= playBackGround[0].length - 1; j++) {
+    let newHght = hillsHeight[0];
+    if (j % 2 === 0) {
+      const min = hillsHeight[0] - 1;
+      const max = hillsHeight[0] + 1;
+      newHght = Math.random() * (max - min) + min;
+    }
+    if (newHght < playBackGround.length * 0.3) {
+      newHght += 2;
+    }
+    if (newHght > playBackGround[0].length * 0.85) {
+      newHght -= 2;
+    }
+    fillColoumn(j, newHght, playBackGround, groundChar, hillsChar);
+    hillsHeight[0] = newHght;
+  }
+};
+
+const appendBackground = (hillsHeight, playBackGround, groundChar, hillsChar) => {
+  // generates new "hills" (coloumns) after frame 0
+  let newHght = hillsHeight[0];
+  const min = hillsHeight[0] - 1;
+  const max = hillsHeight[0] + 1;
+  newHght = Math.random() * (max - min) + min;
+  if (newHght < playBackGround.length * 0.4) {
+    newHght += 1;
+  }
+  if (newHght > playBackGround.length * 0.85) {
+    newHght -= 1;
+  }
+  fillColoumn(
+    playBackGround[0].length - 1,
+    newHght,
+    playBackGround,
+    groundChar,
+    hillsChar
+  );
+  hillsHeight[0] = newHght;
+};
+
 module.exports = {
   bckGrnd: bckGrnd,
   putInSun: putInSun,
   removeSun: removeSun,
-  fillColoumn: fillColoumn
+  fillColoumn: fillColoumn,
+  generateStartBackground: generateStartBackground,
+  appendBackground: appendBackground
 };

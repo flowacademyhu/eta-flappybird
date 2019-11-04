@@ -5,7 +5,7 @@ const bckG = require('./backGround');
 
 /** global variables **/
 let playArea;
-let playBackGround;
+const playBackGround;
 const rowLength = 40; // height of screen
 const colLength = 120; // width of screen
 const birdChar = 'B';
@@ -22,11 +22,12 @@ const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
 /** setting up and drawing playArea */
 playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
 playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
+const hillsHeight = [Math.floor(playBackGround.length / 3)];
 bckG.putInSun(playBackGround, sunChar, hillsChar);
+bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
 bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
 console.clear();
 draw.draw(playArea, playBackGround);
-const hillsHeight = [Math.floor(playBackGround.length / 3)];
 
 /** interval **/
 let countRounds = 0;
@@ -36,14 +37,7 @@ setInterval(() => {
   console.clear();
   if (countRounds % 45 === 0) {
     const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
-    pipe.createPipe(
-      pipeChar,
-      colLength - 9,
-      rp.width,
-      rp.gapStartLoc,
-      rp.gapLength,
-      playArea
-    );
+    pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
   }
   if (countRounds % 3 === 0) {
     // moves the pipes
@@ -56,45 +50,9 @@ setInterval(() => {
   if (countRounds % 2 === 0 && birdSpeed > -1) {
     birdSpeed--;
   }
-  if (countRounds === 0) {
-    // generates a full "landscape" at start
-    for (let j = 0; j <= playBackGround[0].length - 1; j++) {
-      let newHght = hillsHeight[0];
-      if (j % 2 === 0) {
-        const min = hillsHeight[0] - 1;
-        const max = hillsHeight[0] + 1;
-        newHght = Math.random() * (max - min) + min;
-      }
-      if (newHght < rowLength * 0.3) {
-        newHght += 2;
-      }
-      if (newHght > rowLength * 0.85) {
-        newHght -= 2;
-      }
-      bckG.fillColoumn(j, newHght, playBackGround, groundChar, hillsChar);
-      hillsHeight[0] = newHght;
-    }
-  }
-  if (countRounds !== 0 && countRounds % 4 === 0) {
+  if (countRounds % 4 === 0) {
     // generates new "hills" (coloumns) after frame 0
-    let newHght = hillsHeight[0];
-    const min = hillsHeight[0] - 1;
-    const max = hillsHeight[0] + 1;
-    newHght = Math.random() * (max - min) + min;
-    if (newHght < rowLength * 0.4) {
-      newHght += 1;
-    }
-    if (newHght > rowLength * 0.85) {
-      newHght -= 1;
-    }
-    bckG.fillColoumn(
-      playBackGround[0].length - 1,
-      newHght,
-      playBackGround,
-      groundChar,
-      hillsChar
-    );
-    hillsHeight[0] = newHght;
+    bckG.appendBackground(hillsHeight, playBackGround, groundChar, hillsChar);
   }
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
