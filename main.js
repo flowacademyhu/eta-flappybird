@@ -10,7 +10,7 @@ colors.enable();
 let playArea;
 let playBackGround;
 const rowLength = 30; // height of screen
-const colLength = 70; // width of screen
+const colLength = 80; // width of screen
 const birdChar = '█'.red;
 const pipeChar = '▒'.brightGreen;
 const sunChar = '█'.yellow;
