@@ -1,7 +1,7 @@
 const pipe = require('./pipe');
 const draw = require('./draw');
 const bird = require('./bird');
-
+const collision = require('./collision');
 /** global variables **/
 let playArea;
 const rowLength = 20;
@@ -22,20 +22,27 @@ draw.draw(playArea);
 /** interval **/
 let countRounds = 0;
 setInterval(() => {
+  const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
-  if (countRounds % 45 === 0) {
+  if (countRounds % 35 === 0) {
     const rp = pipe.getRandomPipeParams(3, 6, 6, 12, 4, 6);
     pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
   }
-  if (countRounds % 3 === 0) {
+  if (countRounds % 1 === 0) {
     pipe.shiftPlayArea(backgroundChar, playArea);
   }
   if (countRounds % 2 === 0 && birdSpeed > -1) {
     birdSpeed--;
   }
+  const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
+  if (birdCol || birdPipe) {
+    process.exit();
+  }
+
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
+
   draw.draw(playArea);
   countRounds++;
 }, 50);
