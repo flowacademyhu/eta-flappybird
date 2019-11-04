@@ -1,42 +1,57 @@
-// two array-generators for testing
-let frGrnd = Array(100)
-  .fill()
-  .map(() => Array(150).fill('0'));
-
-let bckGrnd = Array(100)
-  .fill()
-  .map(() => Array(150).fill(' '));
-
-// function, fills the coloumns with letter 'H'
-const fillColoumn = (index, newHght) => {
-  for (let i = bckGrnd.length - 1; i > bckGrnd.length - 1 - newHght; i--) {
-    bckGrnd[i][index] = 'H';
-  }
+const bckGrnd = (row, col) => {
+  return Array(row)
+    .fill()
+    .map(() => Array(col).fill(' '));
 };
 
-// driver function, generates random height for next coloumn, based on prev. height
-let height = [6];
-for (let j = 0; j <= bckGrnd[0].length - 1; j++) {
-  const min = height[0] - 1;
-  const max = height[0] + 1;
-  const newHght = Math.random() * (max - min) + min;
-  fillColoumn(j, newHght);
-  height[0] = newHght;
-}
-
-// imported draw function for testing
-const draw = (foreGround, backGround) => {
-  for (let i = 0; i < foreGround.length; i++) {
-    let line = '';
-    for (let j = 0; j < foreGround[i].length; j++) {
-      if (foreGround[i][j] === '0') {
-        line = line + backGround[i][j];
-      } else {
-        line = line + foreGround[i][j];
+const putInSun = screen => {
+  const sunHeight = Math.ceil(screen.length / 6);
+  const sunWidth = Math.ceil(screen[0].length / 6);
+  for (let s = -2; s < 2; s++) {
+    if (s === -2 || s === 1) {
+      for (let u = -2; u < 3; u++) {
+        if (screen[sunHeight + s][sunWidth + u] !== '░') {
+          screen[sunHeight + s][sunWidth + u] = 'S';
+        }
+      }
+    } else {
+      for (let u = -3; u < 4; u++) {
+        if (screen[sunHeight + s][sunWidth + u] !== '░') {
+          screen[sunHeight + s][sunWidth + u] = 'S';
+        }
       }
     }
-    process.stdout.write(line);
-    console.log();
   }
 };
-draw(frGrnd, bckGrnd);
+
+const removeSun = (backgroundChar, screen) => {
+  for (let i = 0; i < screen.length; i++) {
+    for (let j = 0; j < screen[0].length; j++) {
+      if (screen[i][j] === 'S') {
+        screen[i][j] = backgroundChar;
+      }
+    }
+  }
+};
+
+const fillColoumn = (index, newHght, playBackGround) => {
+  for (
+    let i = playBackGround.length - 1;
+    i > playBackGround.length - 1 - newHght;
+    i--
+  ) {
+    if (i > playBackGround.length * 0.8) {
+      playBackGround[i][index] = '~';
+      playBackGround[i][index + 1] = '=';
+    } else {
+      playBackGround[i][index] = '░';
+    }
+  }
+};
+
+module.exports = {
+  bckGrnd: bckGrnd,
+  putInSun: putInSun,
+  removeSun: removeSun,
+  fillColoumn: fillColoumn
+};

@@ -27,7 +27,7 @@ const backG = [
 const draw = (foreGround, backGround) => {
   for (let i = 0; i < foreGround.length; i++) {
     let line = '';
-    for (let j = 0; j < foreGround[i].length; j++) {
+    for (let j = 0; j < foreGround[i].length - 15; j++) {
       if (foreGround[i][j] === '0') {
         line = line + backGround[i][j];
       } else {

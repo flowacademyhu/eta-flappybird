@@ -1,5 +1,7 @@
 const createPlayArea = (backgroundChar, row, col) => {
-  return Array(row).fill().map(() => (Array(col).fill(backgroundChar)));
+  return Array(row)
+    .fill()
+    .map(() => Array(col).fill(backgroundChar));
 };
 
 const getPipeColIndexes = (PipeLength, gapStartLoc, gapLength) => {
@@ -17,7 +19,7 @@ const createPipe = (pipeChar, col, width, gapStartLoc, gapLength, matrix) => {
 
   for (const i of colIndexes) {
     for (let j = 0; j < width; j++) {
-      matrix[i][col + j] = pipeChar;
+      if (i < matrix.length * 0.9) matrix[i][col + j] = pipeChar;
     }
   }
 };
@@ -26,7 +28,14 @@ const getRand = (min, max) => {
   return Math.floor(Math.random() * (max + 1 - min) + min);
 };
 
-const getRandomPipeParams = (minGapStart, maxGapStart, minGapLen, maxGapLen, minWidth = 3, maxWidth = 3) => {
+const getRandomPipeParams = (
+  minGapStart,
+  maxGapStart,
+  minGapLen,
+  maxGapLen,
+  minWidth = 3,
+  maxWidth = 3
+) => {
   return {
     gapStartLoc: getRand(minGapStart, maxGapStart),
     gapLength: getRand(minGapLen, maxGapLen),
