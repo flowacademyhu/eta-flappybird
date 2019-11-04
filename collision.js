@@ -1,11 +1,14 @@
 // a madár tereppel történő ütközésének az ellenőrzése.
 
-const birdCollision = (playArea, birdChar) => {
-  if (playArea[19][10] === birdChar) {
-    process.exit();
-  } else if (playArea[0][10] === birdChar) {
-    process.exit();
-  }
+const birdCollision = (playArea, birdChar, birdCoordinates) => {
+  const areaBottom = playArea.length - 1;
+  const birdPos = birdCoordinates[0][1];
+
+  if (playArea[areaBottom][birdPos] === birdChar) {
+    return true;
+  } else if (playArea[0][birdPos] === birdChar) {
+    return true;
+  } else return false;
 };
 
 const birdPipeCol = (pipeChar, coordinates, area) => {
@@ -13,8 +16,8 @@ const birdPipeCol = (pipeChar, coordinates, area) => {
     const row = i[0];
     const col = i[1];
     if (area[row][col] === pipeChar) {
-      process.exit();
-    }
+      return true;
+    } else return false;
   }
 };
 module.exports = {

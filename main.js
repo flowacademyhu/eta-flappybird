@@ -22,6 +22,7 @@ draw.draw(playArea);
 /** interval **/
 let countRounds = 0;
 setInterval(() => {
+  const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
   if (countRounds % 35 === 0) {
@@ -34,10 +35,14 @@ setInterval(() => {
   if (countRounds % 2 === 0 && birdSpeed > -1) {
     birdSpeed--;
   }
-  collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
+  const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
+  if (birdCol || birdPipe) {
+    process.exit();
+  }
+
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
-  collision.birdCollision(playArea, birdChar);
+
   draw.draw(playArea);
   countRounds++;
 }, 50);
