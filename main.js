@@ -2,10 +2,11 @@ const pipe = require('./pipe');
 const draw = require('./draw');
 const bird = require('./bird');
 const bckG = require('./backGround');
+const collision = require('./collision');
 
 /** global variables **/
 let playArea;
-const playBackGround;
+let playBackGround;
 const rowLength = 40; // height of screen
 const colLength = 120; // width of screen
 const birdChar = 'B';
@@ -24,7 +25,12 @@ playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
 playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
 const hillsHeight = [Math.floor(playBackGround.length / 3)];
 bckG.putInSun(playBackGround, sunChar, hillsChar);
-bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
+bckG.generateStartBackground(
+  playBackGround,
+  hillsHeight,
+  groundChar,
+  hillsChar
+);
 bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
 console.clear();
 draw.draw(playArea, playBackGround);
@@ -32,14 +38,22 @@ draw.draw(playArea, playBackGround);
 /** interval **/
 let countRounds = 0;
 setInterval(() => {
+  const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
   bckG.removeSun(backLayerChar, playBackGround, sunChar);
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
   console.clear();
-  if (countRounds % 45 === 0) {
+  if (countRounds % 35 === 0) {
     const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
-    pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
+    pipe.createPipe(
+      pipeChar,
+      colLength - 9,
+      rp.width,
+      rp.gapStartLoc,
+      rp.gapLength,
+      playArea
+    );
   }
-  if (countRounds % 3 === 0) {
+  if (countRounds % 1 === 0) {
     // moves the pipes
     pipe.shiftPlayArea(backgroundChar, playArea);
   }
@@ -53,6 +67,10 @@ setInterval(() => {
   if (countRounds % 4 === 0) {
     // generates new "hills" (coloumns) after frame 0
     bckG.appendBackground(hillsHeight, playBackGround, groundChar, hillsChar);
+  }
+  const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
+  if (birdCol || birdPipe) {
+    process.exit();
   }
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
