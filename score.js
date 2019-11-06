@@ -1,4 +1,5 @@
 const fs = require('fs');
+const asTable = require('as-table');
 console.clear();
 console.clear();
 let highscore = [];
@@ -26,7 +27,8 @@ const fileReading = () => {
 };
 
 const scoretable = () => {
-  console.log(highscore);
+  // console.log(highscore);
+  console.log(asTable(highscore));
 };
 const scores = () => {
   fileReading();
@@ -37,14 +39,3 @@ module.exports = {
   writeFile: writeFile,
   scores: scores
 };
-
-/* const clc = require('cli-color');
-
-for (let i = 0; i < highscore.length - 1; i++) {
-  process.stdout.write(
-    clc.columns([
-      [highscore[i][0], highscore[i][1]]
-    ])
-  );
-}
-*/
