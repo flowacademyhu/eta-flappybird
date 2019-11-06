@@ -1,2 +1,4 @@
 asd;60
 Tomi;165
+Tomi;98
+Janó;144
