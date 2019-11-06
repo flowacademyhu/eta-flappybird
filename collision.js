@@ -20,6 +20,7 @@ const birdPipeCol = (pipeChar, coordinates, area) => {
     } else return false;
   }
 };
+
 module.exports = {
   birdCollision: birdCollision,
   birdPipeCol: birdPipeCol
