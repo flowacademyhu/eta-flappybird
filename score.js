@@ -1,35 +1,50 @@
 const fs = require('fs');
-const rl = require('readline-sync');
-let array = [];
-const name = rl.question('Add meg a neved: ');
-const score = rl.question('Adj egy számot: ');
-const names = [];
-const scores = [];
+console.clear();
+console.clear();
 let highscore = [];
 
 const writeFile = (userName, score) => {
-  fs.appendFileSync('score.txt', userName + '\t' + score + '\t', { encoding: 'utf8' });
+  fs.appendFileSync('score.txt', userName + ';' + score + '\n', { encoding: 'utf8' });
 };
 
-writeFile(name, score);
+const fileReading = () => {
+  const content = fs.readFileSync('score.txt', { encoding: 'utf8' });
+  const rows = content.split('\n');
 
-const content = fs.readFileSync('score.txt', { encoding: 'utf8' });
+  for (let i = 0; i < rows.length - 1; i++) {
+    const row = rows[i].split(';');
+    const tempObj = {
+      name: row[0],
+      score: row[1]
+    };
+    highscore.push(tempObj);
+  }
 
-array = content.split('\t');
+  highscore = highscore.sort(function (a, b) {
+    return b.score - a.score;
+  });
+};
 
-for (let i = 0; i < array.length - 1; i += 2) {
-  names.push((array[(i)]));
+const scoretable = () => {
+  console.log(highscore);
+};
+const scores = () => {
+  fileReading();
+  scoretable();
+};
+
+module.exports = {
+  writeFile: writeFile,
+  scores: scores
+};
+
+/* const clc = require('cli-color');
+
+for (let i = 0; i < highscore.length - 1; i++) {
+  process.stdout.write(
+    clc.columns([
+      [highscore[i][0], highscore[i][1]]
+    ])
+  );
 }
-for (let i = 0; i < array.length - 1; i += 2) {
-  scores.push((array[(i + 1)]));
-}
-
-for (let i = 0; i < names.length; i++) {
-  highscore.push([names[i], scores[i]]);
-}
-
-highscore = highscore.sort(function (a, b) {
-  return b[1] - a[1];
-});
-
-console.log(highscore);
+*/

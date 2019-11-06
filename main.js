@@ -2,11 +2,16 @@ const pipe = require('./pipe');
 const draw = require('./draw');
 const bird = require('./bird');
 const bckG = require('./backGround');
+const readline = require('readline-sync');
 const collision = require('./collision');
+const writeFile = require('./score');
+const scores = require('./score');
 const colors = require('colors');
 colors.enable();
 
 /** global variables **/
+const name = readline.question('Plese enter your name: ');
+let score;
 let playArea;
 let playBackGround;
 const rowLength = 30; // height of screen
@@ -34,7 +39,7 @@ draw.draw(playArea, playBackGround);
 
 /** interval **/
 let countRounds = 0;
-setInterval(() => {
+const game = setInterval(() => {
   const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
   bckG.removeSun(backLayerChar, playBackGround, sunChar);
   bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
@@ -60,7 +65,11 @@ setInterval(() => {
   }
   const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
   if (birdCol || birdPipe) {
-    process.exit();
+    clearInterval(game);
+    console.clear();
+    score = countRounds;
+    writeFile.writeFile(name, score);
+    scores.scores();
   }
   bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
