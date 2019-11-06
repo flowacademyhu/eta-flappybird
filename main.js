@@ -22,12 +22,13 @@ const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
+let hillsHeight;
 
 /** setting up and drawing playArea */
 const initGame = () => {
   playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
   playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
-  const hillsHeight = [Math.floor(playBackGround.length / 3)];
+  hillsHeight = [Math.floor(playBackGround.length / 3)];
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
@@ -36,9 +37,9 @@ const initGame = () => {
 };
 
 /** interval **/
-const driverInterval = () => {
+const play = () => {
   let countRounds = 0;
-  setInterval(() => {
+  const game = setInterval(() => {
     const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
     bckG.removeSun(backLayerChar, playBackGround, sunChar);
     bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
@@ -64,31 +65,33 @@ const driverInterval = () => {
     }
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
     if (birdCol || birdPipe) {
+      clearInterval(game);
+      process.exit();
+    } else {
+      bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
+      bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
+      bckG.putInSun(playBackGround, sunChar, hillsChar);
+      draw.draw(playArea, playBackGround);
+      countRounds++;
+    }
+  }, 50);
+
+  /** standard input **/
+  const stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.resume();
+  stdin.setEncoding('utf-8');
+  stdin.on('data', key => {
+    if (key === 'q') {
       process.exit();
     }
-    bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
-    bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
-    bckG.putInSun(playBackGround, sunChar, hillsChar);
-    draw.draw(playArea, playBackGround);
-    countRounds++;
-  }, 50);
+    if (key === 'w') {
+      birdSpeed = birdFlyAcceleration;
+    }
+  });
 };
-
-/** standard input **/
-const stdin = process.stdin;
-stdin.setRawMode(true);
-stdin.resume();
-stdin.setEncoding('utf-8');
-stdin.on('data', key => {
-  if (key === 'q') {
-    process.exit();
-  }
-  if (key === 'w') {
-    birdSpeed = birdFlyAcceleration;
-  }
-});
 
 module.exports = {
   initGame: initGame,
-  driverInterval: driverInterval
+  play: play
 };

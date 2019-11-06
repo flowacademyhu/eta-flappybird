@@ -19,7 +19,6 @@
   "dependencies": {
     "center-align": "^1.0.1",
     "colors": "^1.4.0",
-    "figlet": "^1.2.4",
     "terminal-kit": "^1.31.4",
     "terminal-kit-plugins": "^1.1.0"
   }

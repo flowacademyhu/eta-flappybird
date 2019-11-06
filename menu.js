@@ -51,7 +51,7 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.resetHighlightBgColorRgb();
       term.reset();
       main.initGame();
-      main.driverInterval();
+      main.play();
       break;
     case 1:
       term.styleReset();
@@ -62,7 +62,7 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.reset();
       term.red.blink.inverse('Showing ScoreBoard...');
       console.log('\n');
-      break;
+      process.exit();
     case 2:
       term.styleReset();
       term.resetDefaultColorRgb();
@@ -72,6 +72,6 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.reset();
       term.brightMagenta.blink.inverse('Game closed');
       console.log('\n');
+      process.exit();
   }
-  process.exit();
 });
