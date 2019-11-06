@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/flowacademyhu/eta-flappybird#readme",
   "dependencies": {
+    "as-table": "^1.0.55",
     "center-align": "^1.0.1",
+    "cli-color": "^2.0.0",
     "colors": "^1.4.0",
+    "readline-sync": "^1.4.10",
     "terminal-kit": "^1.31.4",
     "terminal-kit-plugins": "^1.1.0"
   }
