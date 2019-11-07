@@ -3,6 +3,7 @@ require('terminal-kit-plugins').plugin(term);
 const center = require('center-align');
 const main = require('./main');
 const scores = require('./score');
+
 const logoF = [
   ['╔═════════════════════════════════════════════════════════╗'],
   ['║  _______ _                         ______ _          _  ║'],
@@ -27,7 +28,7 @@ const drawLogo = foreGround => {
   term.dim.bold.inverse.darkColor(4)(false);
 };
 
-const items = ['                        PLAY                        ', '                       BEST SCORES                        ', '                        EXIT                        '];
+const items = ['                        PLAY                        ', '                       HIGH SCORES                        ', '                        EXIT                        '];
 const options = {
   y: 11
 };
@@ -52,6 +53,7 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.reset();
       main.initGame();
       main.play();
+      main.stdInput();
       break;
     case 1:
       term.styleReset();
@@ -61,9 +63,9 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.resetHighlightBgColorRgb();
       term.reset();
       scores.scores();
-      term.red.blink.inverse('Showing ScoreBoard...');
+      main.stdInput();
       console.log('\n');
-      process.exit();
+      break;
     case 2:
       term.styleReset();
       term.resetDefaultColorRgb();
@@ -71,8 +73,6 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.resetCursorColorRgb();
       term.resetHighlightBgColorRgb();
       term.reset();
-      term.brightMagenta.blink.inverse('Game closed');
-      console.log('\n');
       process.exit();
   }
 });
