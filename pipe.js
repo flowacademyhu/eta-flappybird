@@ -26,10 +26,11 @@ const createPipe = (pipeCounter, pipeChar, col, width, gapStartLoc, gapLength, m
         matrix[i][col + j] = pipeChar;
         matrix[i][col + j + 1] = pipeChar;
       }
-      if (i === gapStartLoc - 2 && j === 1) {
+      if (i === gapStartLoc - 2 && j === 3) {
         const arr = String(pipeCounter).split('');
+        arr.push(' ', ' ');
         for (let k = 0; k < arr.length; k++) {
-          matrix[i][col + 1] = arr[k].white.bold.dim.bgGreen;
+          matrix[i][col + 1 + k] = arr[k].white.bold.dim.bgGreen;
         }
       } else {
         matrix[i][col + j] = pipeChar;

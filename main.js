@@ -26,9 +26,7 @@ const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 let birdCoordinates;
-term.inverse.bold.blue(true);
-const name = readline.question('Plese enter your name: ');
-term.inverse.bold.blue(false);
+const name = readline.question('Plese enter your name:'.bold.inverse.dim.blue);
 let hillsHeight;
 let game;
 let pipeCounter;
@@ -46,7 +44,7 @@ const initGame = () => {
   console.clear();
   draw.draw(playArea, playBackGround);
   replay = false;
-  pipeCounter = 9;
+  pipeCounter = 0;
 };
 
 /** interval **/
