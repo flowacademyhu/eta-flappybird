@@ -1,3 +1,4 @@
+require('colors');
 console.clear();
 const pipe = require('./pipe');
 const draw = require('./draw');
@@ -6,12 +7,11 @@ const bckG = require('./backGround');
 const readline = require('readline-sync');
 const collision = require('./collision');
 const scores = require('./score');
-const colors = require('colors');
 const term = require('terminal-kit').terminal;
 
 /** global variables **/
 let replay = true;
-let score = 0;
+let score;
 let playArea;
 let playBackGround;
 const rowLength = 30; // height of screen
@@ -36,18 +36,19 @@ let pipeCounter;
 /** setting up and drawing playArea */
 
 const initGame = () => {
+  console.clear();
+  score = 0;
+  pipeCounter = 0;
+  birdSpeed = 0;
   playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
   playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
   hillsHeight = [Math.floor(playBackGround.length / 3)];
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
-  birdCoordinates = bird.makeBirdCoordinates(2, 10, 1, 2);
-  birdSpeed = 0;
+  birdCoordinates = bird.makeBirdCoordinates(2, 10, 1, 1);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
-  console.clear();
   draw.draw(playArea, playBackGround);
   replay = false;
-  pipeCounter = 9;
 };
 
 /** interval **/
@@ -89,7 +90,6 @@ const play = () => {
       replay = true;
       clearInterval(game);
       scores.writeFile(name, score);
-      score = 0;
       scores.gameover();
     } else {
       bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
