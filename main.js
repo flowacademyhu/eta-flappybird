@@ -17,10 +17,10 @@ let playBackGround;
 const rowLength = 30; // height of screen
 const colLength = 90; // width of screen
 const birdChar = '█'.red;
-const pipeChar = '▒'.brightGreen;
+const pipeChar = '█'.green;
 const sunChar = '█'.yellow;
 const groundChar = '\\'.strikethrough.underline.inverse.dim.yellow;
-const hillsChar = '░'.green;
+const hillsChar = '▒'.dim.green;
 const backgroundChar = '0'; // filling of foreGround blank areas
 const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
@@ -31,6 +31,7 @@ const name = readline.question('Plese enter your name: ');
 term.inverse.bold.blue(false);
 let hillsHeight;
 let game;
+let pipeCounter;
 
 /** setting up and drawing playArea */
 
@@ -46,6 +47,7 @@ const initGame = () => {
   console.clear();
   draw.draw(playArea, playBackGround);
   replay = false;
+  pipeCounter = 9;
 };
 
 /** interval **/
@@ -57,8 +59,9 @@ const play = () => {
     bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
     console.clear();
     if (countRounds % 35 === 0) {
+      pipeCounter++;
       const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
-      pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
+      pipe.createPipe(pipeCounter, pipeChar, colLength - 9, 6, rp.gapStartLoc, rp.gapLength, playArea);
     }
     if (countRounds % 1 === 0) {
       // moves the pipes
