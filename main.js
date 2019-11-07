@@ -10,6 +10,7 @@ const colors = require('colors');
 const term = require('terminal-kit').terminal;
 
 /** global variables **/
+let replay;
 let score = 0;
 let playArea;
 let playBackGround;
@@ -43,6 +44,7 @@ const initGame = () => {
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   console.clear();
   draw.draw(playArea, playBackGround);
+  replay = false;
 };
 
 /** interval **/
@@ -79,6 +81,7 @@ const play = () => {
     }
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
     if (birdCol || birdPipe) {
+      replay = true;
       clearInterval(game);
       scores.writeFile(name, score);
       score = 0;
@@ -107,7 +110,7 @@ const stdInput = () => {
     if (key === ' ') {
       birdSpeed = birdFlyAcceleration;
     }
-    if (key === 'r') {
+    if (key === 'r' && replay) {
       initGame();
       play();
     }
