@@ -23,7 +23,7 @@ const groundChar = '\\'.strikethrough.underline.inverse.dim.yellow;
 const hillsChar = '▒'.dim.green;
 const backgroundChar = '0'; // filling of foreGround blank areas
 const backLayerChar = '▓'.blue; // filling of backGround blank areas
-let birdSpeed = 0;
+let birdSpeed;
 const birdFlyAcceleration = 2;
 let birdCoordinates;
 term.inverse.bold.blue(true);
