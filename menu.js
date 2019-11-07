@@ -3,6 +3,7 @@ require('terminal-kit-plugins').plugin(term);
 const center = require('center-align');
 const main = require('./main');
 const scores = require('./score');
+
 const logoF = [
   ['╔═════════════════════════════════════════════════════════╗'],
   ['║  _______ _                         ______ _          _  ║'],
@@ -62,9 +63,9 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.resetHighlightBgColorRgb();
       term.reset();
       scores.scores();
-      term.red.blink.inverse('Showing ScoreBoard...');
+      main.stdInput();
       console.log('\n');
-      process.exit();
+      break;
     case 2:
       term.styleReset();
       term.resetDefaultColorRgb();
@@ -72,8 +73,6 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.resetCursorColorRgb();
       term.resetHighlightBgColorRgb();
       term.reset();
-      term.brightMagenta.blink.inverse('Game closed');
-      console.log('\n');
       process.exit();
   }
 });

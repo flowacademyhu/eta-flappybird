@@ -2,6 +2,9 @@ const fs = require('fs');
 const asTable = require('as-table');
 const center = require('center-align');
 const figlet = require('figlet');
+const term = require('terminal-kit').terminal;
+term.hideCursor();
+
 let highscore = [];
 
 const writeFile = (userName, score) => {
@@ -21,28 +24,34 @@ const fileReading = () => {
     highscore.push(tempObj);
   }
 
-  highscore = highscore.sort(function (a, b) {
+  highscore = highscore.sort(function(a, b) {
     return b.score - a.score;
   });
 };
 const gameover = () => {
-  figlet('Game Over !!!', function (err, data) {
+  term.dim.bold.inverse.blue(true);
+  figlet('Game Over !!!', function(err, data) {
     if (err) {
       console.log('Something went wrong...');
       console.dir(err);
       return;
     }
-    console.log((data));
-    setTimeout((scores), 3000);
+    term.dim.bold.inverse.blue(false);
+    console.log(data);
+    setTimeout(scores, 2000);
   });
 };
 
 const scoretable = () => {
   if (highscore.length < 10) {
-    console.log(center((asTable(highscore)), 65));
+    console.log(center(asTable(highscore), 65));
   } else if (highscore.length >= 10) {
-    console.log(center((asTable(highscore.slice(0, 10))), 65));
+    console.log(center(asTable(highscore.slice(0, 10)), 65));
   }
+  console.log();
+  term.dim.bold.inverse.blue(true);
+  console.log(center('Play again = r          Exit = q', 63));
+  term.dim.bold.inverse.blue(false);
 };
 const scores = () => {
   fileReading();
