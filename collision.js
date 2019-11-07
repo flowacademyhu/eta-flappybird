@@ -15,6 +15,9 @@ const birdPipeCol = (pipeChar, coordinates, area) => {
   for (const i of coordinates) {
     const row = i[0];
     const col = i[1];
+    if (area[row] === undefined) {
+      return true;
+    }
     if (area[row][col] === pipeChar) {
       return true;
     } else return false;
