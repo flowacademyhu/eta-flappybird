@@ -24,7 +24,7 @@ const backgroundChar = '0'; // filling of foreGround blank areas
 const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
-const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
+let birdCoordinates;
 term.inverse.bold.blue(true);
 const name = readline.question('Plese enter your name: ');
 term.inverse.bold.blue(false);
@@ -39,6 +39,7 @@ const initGame = () => {
   hillsHeight = [Math.floor(playBackGround.length / 3)];
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
+  birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   console.clear();
   draw.draw(playArea, playBackGround);
@@ -80,6 +81,7 @@ const play = () => {
     if (birdCol || birdPipe) {
       clearInterval(game);
       scores.writeFile(name, score);
+      score = 0;
       scores.gameover();
     } else {
       bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
@@ -102,7 +104,7 @@ const stdInput = () => {
       console.clear();
       process.exit();
     }
-    if (key === 'w') {
+    if (key === ' ') {
       birdSpeed = birdFlyAcceleration;
     }
     if (key === 'r') {
