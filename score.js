@@ -45,7 +45,7 @@ const scoretable = () => {
   if (highscore.length < 10) {
     console.log(center(asTable(highscore), 65));
   } else if (highscore.length >= 10) {
-    console.log(center(asTable(highscore.slice(0, 10)), 65));
+    console.log(center(asTable(highscore.slice(0, 10)), 62));
   }
   highscore = [];
   console.log();

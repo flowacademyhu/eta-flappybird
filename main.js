@@ -18,6 +18,7 @@ const rowLength = 30; // height of screen
 const colLength = 90; // width of screen
 const birdChar = '█'.red;
 const pipeChar = '█'.green;
+const pipeShade = '█'.dim.white;
 const sunChar = '█'.yellow;
 const groundChar = '\\'.strikethrough.underline.inverse.dim.yellow;
 const hillsChar = '▒'.dim.green;
@@ -58,7 +59,7 @@ const play = () => {
     if (countRounds % 35 === 0) {
       pipeCounter++;
       const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
-      pipe.createPipe(pipeCounter, pipeChar, colLength - 9, 6, rp.gapStartLoc, rp.gapLength, playArea);
+      pipe.createPipe(pipeCounter, pipeChar, pipeShade, colLength - 9, 6, rp.gapStartLoc, rp.gapLength, playArea);
     }
     if (countRounds % 1 === 0) {
       // moves the pipes
