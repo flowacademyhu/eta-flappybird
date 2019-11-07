@@ -1,8 +1,7 @@
 const fs = require('fs');
 const asTable = require('as-table');
 const center = require('center-align');
-console.clear();
-console.clear();
+const figlet = require('figlet');
 let highscore = [];
 
 const writeFile = (userName, score) => {
@@ -26,12 +25,23 @@ const fileReading = () => {
     return b.score - a.score;
   });
 };
+const gameover = () => {
+  figlet('Game Over !!!', function (err, data) {
+    if (err) {
+      console.log('Something went wrong...');
+      console.dir(err);
+      return;
+    }
+    console.log((data));
+    setTimeout((scores), 3000);
+  });
+};
 
 const scoretable = () => {
   if (highscore.length < 10) {
-    console.log(center((asTable(highscore)), 80));
+    console.log(center((asTable(highscore)), 65));
   } else if (highscore.length >= 10) {
-    console.log(center((asTable(highscore.slice(0, 10))), 80));
+    console.log(center((asTable(highscore.slice(0, 10))), 65));
   }
 };
 const scores = () => {
@@ -41,5 +51,6 @@ const scores = () => {
 
 module.exports = {
   writeFile: writeFile,
-  scores: scores
+  scores: scores,
+  gameover: gameover
 };

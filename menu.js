@@ -2,7 +2,7 @@ const term = require('terminal-kit').terminal;
 require('terminal-kit-plugins').plugin(term);
 const center = require('center-align');
 const main = require('./main');
-
+const scores = require('./score');
 const logoF = [
   ['╔═════════════════════════════════════════════════════════╗'],
   ['║  _______ _                         ______ _          _  ║'],
@@ -60,6 +60,7 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.resetCursorColorRgb();
       term.resetHighlightBgColorRgb();
       term.reset();
+      scores.scores();
       term.red.blink.inverse('Showing ScoreBoard...');
       console.log('\n');
       process.exit();
