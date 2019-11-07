@@ -18,19 +18,19 @@ const fileReading = () => {
   for (let i = 0; i < rows.length - 1; i++) {
     const row = rows[i].split(';');
     const tempObj = {
-      name: row[0],
-      score: row[1]
+      Name: row[0],
+      Score: row[1]
     };
     highscore.push(tempObj);
   }
 
-  highscore = highscore.sort(function(a, b) {
-    return b.score - a.score;
+  highscore = highscore.sort(function (a, b) {
+    return b.Score - a.Score;
   });
 };
 const gameover = () => {
   term.dim.bold.inverse.blue(true);
-  figlet('Game Over !!!', function(err, data) {
+  figlet('Game Over !!!', function (err, data) {
     if (err) {
       console.log('Something went wrong...');
       console.dir(err);
@@ -48,9 +48,10 @@ const scoretable = () => {
   } else if (highscore.length >= 10) {
     console.log(center(asTable(highscore.slice(0, 10)), 65));
   }
+  highscore = [];
   console.log();
   term.dim.bold.inverse.blue(true);
-  console.log(center('Play again = r          Exit = q', 63));
+  console.log(center('Play = r          Exit = q', 63));
   term.dim.bold.inverse.blue(false);
 };
 const scores = () => {
