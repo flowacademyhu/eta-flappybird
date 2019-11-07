@@ -40,7 +40,7 @@ const initGame = () => {
   hillsHeight = [Math.floor(playBackGround.length / 3)];
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
-  birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
+  birdCoordinates = bird.makeBirdCoordinates(2, 10, 1, 2);
   birdSpeed = 0;
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   console.clear();
