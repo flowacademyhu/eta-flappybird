@@ -10,7 +10,7 @@ const colors = require('colors');
 const term = require('terminal-kit').terminal;
 
 /** global variables **/
-let replay;
+let replay = true;
 let score = 0;
 let playArea;
 let playBackGround;
