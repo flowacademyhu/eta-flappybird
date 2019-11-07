@@ -27,6 +27,7 @@ const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 let birdCoordinates;
+term.hideCursor();
 const name = readline.question('Plese enter your name:'.bold.inverse.dim.blue);
 let hillsHeight;
 let game;
@@ -35,12 +36,13 @@ let pipeCounter;
 /** setting up and drawing playArea */
 
 const initGame = () => {
+  term.hideCursor();
   playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
   playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
   hillsHeight = [Math.floor(playBackGround.length / 3)];
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
-  birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
+  birdCoordinates = bird.makeBirdCoordinates(4, 10, 0, 0);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   console.clear();
   draw.draw(playArea, playBackGround);
@@ -50,6 +52,7 @@ const initGame = () => {
 
 /** interval **/
 const play = () => {
+  term.hideCursor();
   let countRounds = 0;
   game = setInterval(() => {
     const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);

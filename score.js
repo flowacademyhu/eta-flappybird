@@ -28,20 +28,20 @@ const fileReading = () => {
   });
 };
 const gameover = () => {
-  term.dim.bold.inverse.blue(true);
+  term.hideCursor();
   figlet('Game Over !!!', function(err, data) {
     if (err) {
       console.log('Something went wrong...');
       console.dir(err);
       return;
     }
-    term.dim.bold.inverse.blue(false);
     console.log(data);
-    setTimeout(scores, 2000);
+    setTimeout(scores, 1500);
   });
 };
 
 const scoretable = () => {
+  term.hideCursor();
   if (highscore.length < 10) {
     console.log(center(asTable(highscore), 65));
   } else if (highscore.length >= 10) {
@@ -50,7 +50,7 @@ const scoretable = () => {
   highscore = [];
   console.log();
   term.dim.bold.inverse.blue(true);
-  console.log(center('Play = r          Exit = q', 63));
+  console.log(center('    Play = r        Exit = q    ', 63));
   term.dim.bold.inverse.blue(false);
 };
 const scores = () => {
