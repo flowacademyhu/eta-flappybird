@@ -27,7 +27,7 @@ const drawLogo = foreGround => {
   term.dim.bold.inverse.darkColor(4)(false);
 };
 
-const items = ['                        PLAY                        ', '                       BEST SCORES                        ', '                        EXIT                        '];
+const items = ['                        PLAY                        ', '                       HIGH SCORES                        ', '                        EXIT                        '];
 const options = {
   y: 11
 };
@@ -52,6 +52,7 @@ term.singleColumnMenu(center(items), options, (Error, response) => {
       term.reset();
       main.initGame();
       main.play();
+      main.stdInput();
       break;
     case 1:
       term.styleReset();
