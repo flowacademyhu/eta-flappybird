@@ -5,15 +5,12 @@ const bird = require('./bird');
 const bckG = require('./backGround');
 const readline = require('readline-sync');
 const collision = require('./collision');
-const writeFile = require('./score');
 const scores = require('./score');
 const colors = require('colors');
 const term = require('terminal-kit').terminal;
 
 /** global variables **/
-
-const name = readline.question('Plese enter your name: ');
-let score;
+let score = 0;
 let playArea;
 let playBackGround;
 const rowLength = 30; // height of screen
@@ -28,6 +25,7 @@ const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 const birdCoordinates = bird.makeBirdCoordinates(2, 10, 0, 0);
+const name = readline.question('Plese enter your name: ');
 let hillsHeight;
 let game;
 
@@ -67,6 +65,11 @@ const play = () => {
     if (countRounds % 2 === 0 && birdSpeed > -1) {
       birdSpeed--;
     }
+    if (countRounds > 70) {
+      if (countRounds % 30 === 0) {
+        score++;
+      }
+    }
     if (countRounds % 4 === 0) {
       // generates new "hills" (coloumns) after frame 0
       bckG.appendBackground(hillsHeight, playBackGround, groundChar, hillsChar);
@@ -74,7 +77,8 @@ const play = () => {
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
     if (birdCol || birdPipe) {
       clearInterval(game);
-      writeFile.writeFile(name, score);
+      scores.writeFile(name, score);
+      scores.gameover();
       console.log();
       term.bold.inverse.dim.blue('  Play again = r     High Scores = s     Exit = q  ');
     } else {
