@@ -1,5 +1,6 @@
 const fs = require('fs');
 const asTable = require('as-table');
+const center = require('center-align');
 console.clear();
 console.clear();
 let highscore = [];
@@ -27,8 +28,11 @@ const fileReading = () => {
 };
 
 const scoretable = () => {
-  // console.log(highscore);
-  console.log(asTable(highscore));
+  if (highscore.length < 10) {
+    console.log(center((asTable(highscore)), 80));
+  } else if (highscore.length >= 10) {
+    console.log(center((asTable(highscore.slice(0, 10))), 80));
+  }
 };
 const scores = () => {
   fileReading();
