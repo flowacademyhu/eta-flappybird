@@ -25,14 +25,14 @@ const createPipe = (pipeCounter, pipeChar, col, width, gapStartLoc, gapLength, m
         matrix[i][col - 1] = pipeChar;
         matrix[i][col + j] = pipeChar;
         matrix[i][col + j + 1] = pipeChar;
-      }
-      if (i === gapStartLoc - 2 && j === 1) {
-        const arr = String(pipeCounter).split('');
-        for (let k = 0; k < arr.length; k++) {
-          matrix[i][col + 1] = arr[k].white.bold.dim.bgGreen;
-        }
       } else {
         matrix[i][col + j] = pipeChar;
+      }
+    }
+    if (i === gapStartLoc - 2) {
+      const arr = String(pipeCounter).split('');
+      for (let k = 0; k < arr.length; k++) {
+        matrix[i][col + k + 1] = arr[k].white.bold.dim.bgGreen;
       }
     }
   }
