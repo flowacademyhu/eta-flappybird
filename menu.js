@@ -1,4 +1,4 @@
-const term = require('terminal-kit').terminal;
+const term = require('terminal-kit').realTerminal;
 require('terminal-kit-plugins').plugin(term);
 const center = require('center-align');
 const main = require('./main');
@@ -33,46 +33,62 @@ const options = {
   y: 11
 };
 
-term.clear();
-drawLogo(logoF);
+const getInput = () => {
+  term.clear();
+  term.inputField((nErr, input) => {
+    term.clear();
+    main.initGame(input);
+    main.play();
+    process.stdin.resume();
+  });
+};
 
-term
-  .bold()
-  .setDefaultBgColorRgb(0, 25, 51)
-  .colorRgb(174, 88, 23)
-  .hideCursor();
+const getMenu = () => {
+  term.clear();
+  drawLogo(logoF);
 
-term.singleColumnMenu(center(items), options, (Error, response) => {
-  switch (response.selectedIndex) {
-    case 0:
-      term.styleReset();
-      term.resetDefaultColorRgb();
-      term.resetDefaultBgColorRgb();
-      term.resetCursorColorRgb();
-      term.resetHighlightBgColorRgb();
-      term.reset();
-      main.initGame();
-      main.play();
-      main.stdInput();
-      break;
-    case 1:
-      term.styleReset();
-      term.resetDefaultColorRgb();
-      term.resetDefaultBgColorRgb();
-      term.resetCursorColorRgb();
-      term.resetHighlightBgColorRgb();
-      term.reset();
-      scores.scores();
-      main.stdInput();
-      console.log('\n');
-      break;
-    case 2:
-      term.styleReset();
-      term.resetDefaultColorRgb();
-      term.resetDefaultBgColorRgb();
-      term.resetCursorColorRgb();
-      term.resetHighlightBgColorRgb();
-      term.reset();
-      process.exit();
-  }
-});
+  term
+    .bold()
+    .setDefaultBgColorRgb(0, 25, 51)
+    .colorRgb(174, 88, 23)
+    .hideCursor();
+
+  term.singleColumnMenu(center(items), options, (Error, response) => {
+    switch (response.selectedIndex) {
+      case 0:
+        term.styleReset();
+        term.resetDefaultColorRgb();
+        term.resetDefaultBgColorRgb();
+        term.resetCursorColorRgb();
+        term.resetHighlightBgColorRgb();
+        term.reset();
+        getInput();
+
+        break;
+      case 1:
+        term.styleReset();
+        term.resetDefaultColorRgb();
+        term.resetDefaultBgColorRgb();
+        term.resetCursorColorRgb();
+        term.resetHighlightBgColorRgb();
+        term.reset();
+        scores.scores();
+        process.stdin.resume();
+        console.log('\n');
+        break;
+      case 2:
+        term.styleReset();
+        term.resetDefaultColorRgb();
+        term.resetDefaultBgColorRgb();
+        term.resetCursorColorRgb();
+        term.resetHighlightBgColorRgb();
+        term.reset();
+        process.exit();
+    }
+  });
+};
+
+module.exports = {
+  getMenu: getMenu,
+  getInput: getInput
+};

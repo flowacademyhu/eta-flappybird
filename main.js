@@ -3,6 +3,7 @@ console.clear();
 const pipe = require('./pipe');
 const draw = require('./draw');
 const bird = require('./bird');
+const menu = require('./menu');
 const bckG = require('./backGround');
 const readline = require('readline-sync');
 const collision = require('./collision');
@@ -10,7 +11,6 @@ const scores = require('./score');
 const term = require('terminal-kit').terminal;
 
 /** global variables **/
-let replay = true;
 let score;
 let playArea;
 let playBackGround;
@@ -23,23 +23,28 @@ const groundChar = '\\'.strikethrough.underline.inverse.dim.yellow;
 const hillsChar = '▒'.dim.green;
 const backgroundChar = '0'; // filling of foreGround blank areas
 const backLayerChar = '▓'.blue; // filling of backGround blank areas
-let birdSpeed;
-const birdFlyAcceleration = 2;
 let birdCoordinates;
 term.inverse.bold.blue(true);
-const name = readline.question('Plese enter your name: ');
 term.inverse.bold.blue(false);
 let hillsHeight;
 let game;
 let pipeCounter;
 
+const playObject = {
+  playMode: false,
+  name: undefined,
+  birdSpeed: 0,
+  birdFlyAcceleration: 2
+};
+
 /** setting up and drawing playArea */
 
-const initGame = () => {
+const initGame = (playerName) => {
+  playObject.name = playerName;
   console.clear();
   score = 0;
   pipeCounter = 0;
-  birdSpeed = 0;
+  playObject.birdSpeed = 0;
   playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
   playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
   hillsHeight = [Math.floor(playBackGround.length / 3)];
@@ -48,7 +53,7 @@ const initGame = () => {
   birdCoordinates = bird.makeBirdCoordinates(2, 10, 1, 1);
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   draw.draw(playArea, playBackGround);
-  replay = false;
+  playObject.playMode = true;
 };
 
 /** interval **/
@@ -72,8 +77,8 @@ const play = () => {
       // moves the hills on backGround
       pipe.shiftPlayArea(backLayerChar, playBackGround);
     }
-    if (countRounds % 2 === 0 && birdSpeed > -1) {
-      birdSpeed--;
+    if (countRounds % 2 === 0 && playObject.birdSpeed > -1) {
+      playObject.birdSpeed--;
     }
     if (countRounds > 70) {
       if (countRounds % 30 === 0) {
@@ -84,12 +89,12 @@ const play = () => {
       // generates new "hills" (coloumns) after frame 0
       bckG.appendBackground(hillsHeight, playBackGround, groundChar, hillsChar);
     }
-    bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
+    bird.changeBirdCoordinates(birdCoordinates, playObject.birdSpeed);
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
     if (birdCol || birdPipe) {
-      replay = true;
+      playObject.playMode = false;
       clearInterval(game);
-      scores.writeFile(name, score);
+      scores.writeFile(playObject.name, score);
       scores.gameover();
     } else {
       bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
@@ -111,12 +116,16 @@ const stdInput = () => {
       console.clear();
       process.exit();
     }
-    if (key === ' ') {
-      birdSpeed = birdFlyAcceleration;
+    if (key === ' ' && playObject.playMode) {
+      playObject.birdSpeed = playObject.birdFlyAcceleration;
     }
-    if (key === 'r' && replay) {
-      initGame();
+    if (key === 'r' && !playObject.playMode) {
+      initGame(playObject.name);
       play();
+    }
+    if (key === 'm' && !playObject.playMode) {
+      stdin.pause();
+      menu.getMenu();
     }
   });
 };
@@ -124,5 +133,6 @@ const stdInput = () => {
 module.exports = {
   initGame: initGame,
   play: play,
-  stdInput: stdInput
+  // stdInput: stdInput,
+  playObject: playObject
 };
