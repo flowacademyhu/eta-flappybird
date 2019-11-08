@@ -1,5 +1,6 @@
 const menu = require('./menu');
 const main = require('./main');
+const sounds = require('./sounds');
 
 const stdInput = () => {
   /** standard input **/
@@ -13,6 +14,7 @@ const stdInput = () => {
       process.exit();
     }
     if (key === ' ' && main.playObject.playMode) {
+      sounds.wing();
       main.playObject.birdSpeed = main.playObject.birdFlyAcceleration;
     }
     if (key === 'r' && !main.playObject.playMode) {
