@@ -1,0 +1,25 @@
+új branch létrehozása a developement branch-ből:
+    frissítsd a dev branchet:
+	git checkout developement 
+	git pull / git fetch
+    új branch készítése: 
+	git checkout -b new-feature developement
+    branch feltolása remote-ba 
+	git push --set-upstream ogiring new-feature
+
+feature branch-be lekérni a developement változásait:
+    frissíteni a dev branchet:
+	git checkout developement
+	git pull
+    összemergelni a feature branch-et a helyi dev branch-el
+	git checkout new-feature
+	git merge developement
+    ha van conflict, feloldod
+    a változásokat felpusholni a new-feature remote-ba
+	git push
+
+Ha kész vagy a feature-el és be akarod mergelni developement-be:
+    először leszeded a dev branch változásait a feature branchbe
+    utána github-on létrehozol egy pull requestet:
+	base: developement	compare: feature
+
