@@ -1,6 +1,8 @@
 const menu = require('./menu');
 const main = require('./main');
 const sounds = require('./sounds');
+sounds.music();
+setInterval(sounds.music, 300000);
 
 const stdInput = () => {
   /** standard input **/

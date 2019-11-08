@@ -1,21 +1,28 @@
 const mpg = require('mpg123');
-const player = new mpg.MpgPlayer();
+const playDie = new mpg.MpgPlayer();
+const playMusic = new mpg.MpgPlayer();
+const playWing = new mpg.MpgPlayer();
+const playPoint = new mpg.MpgPlayer();
 
+const music = () => {
+  playMusic.play('music.mp3');
+};
 const point = () => {
-  player.play('sfx_point.mp3');
+  playPoint.play('sfx_point.mp3');
 }
 ;
 const wing = () => {
-  player.play('sfx_wing.mp3');
+  playWing.play('sfx_wing.mp3');
 }
 ;
 
 const die = () => {
-  player.play('sfx_die.mp3');
+  playDie.play('sfx_die.mp3');
 };
 
 module.exports = {
   point: point,
   wing: wing,
-  die: die
+  die: die,
+  music: music
 };
