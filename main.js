@@ -48,10 +48,10 @@ const playObject = {
 };
 
 const increasedDifficulty = () => {
-  if (randomPipeParams.minGapLen > 3) {
+  if (randomPipeParams.minGapLen > 4) {
     randomPipeParams.minGapLen = randomPipeParams.minGapLen - 1;
   }
-  if (randomPipeParams.maxGapLen > 3) {
+  if (randomPipeParams.maxGapLen > 4) {
     randomPipeParams.maxGapLen = randomPipeParams.maxGapLen - 1;
   }
 };
@@ -109,9 +109,9 @@ const play = () => {
     if (countRounds % 2 === 0 && playObject.birdSpeed > -1) {
       playObject.birdSpeed--;
     }
-    if (countRounds > 70) {
-      if (countRounds % 36 === 0) {
-        // sounds.point();
+    if (countRounds > 35) {
+      if (countRounds % 35 === 0) {
+        sounds.point();
         score++;
       }
     }
