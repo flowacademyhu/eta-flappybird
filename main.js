@@ -26,6 +26,18 @@ let birdCoordinates;
 term.hideCursor();
 let hillsHeight;
 let pipeCounter;
+let randomPipeParams;
+
+const getRandomPipeParams = () => {
+  return {
+    minGapStart: 6,
+    maxGapStart: 13,
+    minGapLen: 10,
+    maxGapLen: 12,
+    minWidht: 4,
+    maxWidth: 6
+  };
+};
 
 const playObject = {
   playMode: false,
@@ -35,14 +47,24 @@ const playObject = {
   game: undefined
 };
 
+const increasedDifficulty = () => {
+  if (randomPipeParams.minGapLen > 3) {
+    randomPipeParams.minGapLen = randomPipeParams.minGapLen - 1;
+  }
+  if (randomPipeParams.maxGapLen > 3) {
+    randomPipeParams.maxGapLen = randomPipeParams.maxGapLen - 1;
+  }
+};
+
 /** setting up and drawing playArea */
 const initGame = playerName => {
   // term.hideCursor();
   playObject.name = playerName;
+  randomPipeParams = getRandomPipeParams();
   console.clear();
   score = 0;
-  pipeCounter = 0;
   playObject.birdSpeed = 0;
+  pipeCounter = 0;
   playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
   playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
   hillsHeight = [Math.floor(playBackGround.length / 3)];
@@ -52,7 +74,6 @@ const initGame = playerName => {
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   draw.draw(playArea, playBackGround);
   playObject.playMode = true;
-  pipeCounter = 0;
 };
 
 /** interval **/
@@ -65,8 +86,16 @@ const play = () => {
     bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
     console.clear();
     if (countRounds % 35 === 0) {
+      if (countRounds % (35 * 7) === 0) {
+        increasedDifficulty();
+      }
       pipeCounter++;
-      const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
+      const rp = pipe.getRandomPipeParams(randomPipeParams.minGapStart,
+        randomPipeParams.maxGapStart,
+        randomPipeParams.minGapLen,
+        randomPipeParams.maxGapLen,
+        randomPipeParams.minWidht,
+        randomPipeParams.maxWidth);
       pipe.createPipe(pipeCounter, pipeChar, pipeShade, colLength - 9, 6, rp.gapStartLoc, rp.gapLength, playArea);
     }
     if (countRounds % 1 === 0) {
@@ -82,7 +111,7 @@ const play = () => {
     }
     if (countRounds > 70) {
       if (countRounds % 36 === 0) {
-        sounds.point();
+        // sounds.point();
         score++;
       }
     }
