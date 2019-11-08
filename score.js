@@ -50,7 +50,7 @@ const scoretable = () => {
   highscore = [];
   console.log();
   term.dim.bold.inverse.blue(true);
-  console.log(center('    Play = r        Exit = q    ', 63));
+  console.log(center('    Play = r     Menu = m     Exit = q    ', 63));
   term.dim.bold.inverse.blue(false);
 };
 const scores = () => {

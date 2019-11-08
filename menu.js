@@ -35,6 +35,7 @@ const options = {
 
 const getInput = () => {
   term.clear();
+  term.blue.bold.dim.inverse('Please enter your name:\n');
   term.inputField((nErr, input) => {
     term.clear();
     main.initGame(input);

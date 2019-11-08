@@ -33,7 +33,7 @@ const createPipe = (pipeCounter, pipeChar, pipeShade, col, width, gapStartLoc, g
         const arr = String(pipeCounter).split('');
         arr.push(' ', ' ');
         for (let k = 0; k < arr.length; k++) {
-          matrix[i][col + 1 + k] = arr[k].white.bold.dim.bgGreen;
+          matrix[i][col + 1 + k] = arr[k].white.bold.bgGreen;
         }
       }
       if (i !== gapStartLoc - 1 && i !== gapStartLoc + gapLength && j === 4) {
