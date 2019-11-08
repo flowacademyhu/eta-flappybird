@@ -6,6 +6,7 @@ const bckG = require('./backGround');
 const readline = require('readline-sync');
 const collision = require('./collision');
 const scores = require('./score');
+const sounds = require('./sounds');
 const colors = require('colors');
 const term = require('terminal-kit').terminal;
 
@@ -77,7 +78,8 @@ const play = () => {
       birdSpeed--;
     }
     if (countRounds > 70) {
-      if (countRounds % 30 === 0) {
+      if (countRounds % 36 === 0) {
+        sounds.point();
         score++;
       }
     }
@@ -88,6 +90,7 @@ const play = () => {
     bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
     if (birdCol || birdPipe) {
+      sounds.die();
       replay = true;
       clearInterval(game);
       scores.writeFile(name, score);
@@ -113,8 +116,9 @@ const stdInput = () => {
       console.clear();
       process.exit();
     }
-    if (key === ' ') {
+    if (key === ' ' && replay === false) {
       birdSpeed = birdFlyAcceleration;
+      sounds.wing();
     }
     if (key === 'r' && replay) {
       initGame();
