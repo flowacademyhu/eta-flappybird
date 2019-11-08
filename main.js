@@ -111,7 +111,7 @@ const play = () => {
     }
     if (countRounds > 70) {
       if (countRounds % 36 === 0) {
-        // sounds.point();
+        sounds.point();
         score++;
       }
     }
