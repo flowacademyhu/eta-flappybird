@@ -17,39 +17,43 @@ let playBackGround;
 const rowLength = 30; // height of screen
 const colLength = 90; // width of screen
 const birdChar = '█'.red;
-const pipeChar = '▒'.brightGreen;
+const pipeChar = '█'.green;
+const pipeShade = '█'.dim.white;
 const sunChar = '█'.yellow;
 const groundChar = '\\'.strikethrough.underline.inverse.dim.yellow;
-const hillsChar = '░'.green;
+const hillsChar = '▒'.dim.green;
 const backgroundChar = '0'; // filling of foreGround blank areas
 const backLayerChar = '▓'.blue; // filling of backGround blank areas
 let birdSpeed = 0;
 const birdFlyAcceleration = 2;
 let birdCoordinates;
-term.inverse.bold.blue(true);
-const name = readline.question('Plese enter your name: ');
-term.inverse.bold.blue(false);
+term.hideCursor();
+const name = readline.question('Plese enter your name:'.bold.inverse.dim.blue);
 let hillsHeight;
 let game;
+let pipeCounter;
 
 /** setting up and drawing playArea */
 
 const initGame = () => {
+  term.hideCursor();
   playArea = pipe.createPlayArea(backgroundChar, rowLength, colLength);
   playBackGround = bckG.bckGrnd(backLayerChar, rowLength, colLength);
   hillsHeight = [Math.floor(playBackGround.length / 3)];
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
-  birdCoordinates = bird.makeBirdCoordinates(2, 10, 1, 2);
+  birdCoordinates = bird.makeBirdCoordinates(4, 10, 1, 1);
   birdSpeed = 0;
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   console.clear();
   draw.draw(playArea, playBackGround);
   replay = false;
+  pipeCounter = 0;
 };
 
 /** interval **/
 const play = () => {
+  term.hideCursor();
   let countRounds = 0;
   game = setInterval(() => {
     const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
@@ -57,8 +61,9 @@ const play = () => {
     bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
     console.clear();
     if (countRounds % 35 === 0) {
+      pipeCounter++;
       const rp = pipe.getRandomPipeParams(8, 11, 6, 12, 4, 6);
-      pipe.createPipe(pipeChar, colLength - 9, rp.width, rp.gapStartLoc, rp.gapLength, playArea);
+      pipe.createPipe(pipeCounter, pipeChar, pipeShade, colLength - 9, 6, rp.gapStartLoc, rp.gapLength, playArea);
     }
     if (countRounds % 1 === 0) {
       // moves the pipes
