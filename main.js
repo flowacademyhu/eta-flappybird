@@ -43,6 +43,7 @@ const initGame = () => {
   bckG.putInSun(playBackGround, sunChar, hillsChar);
   bckG.generateStartBackground(playBackGround, hillsHeight, groundChar, hillsChar);
   birdCoordinates = bird.makeBirdCoordinates(4, 10, 0, 0);
+  birdSpeed = 0;
   bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
   console.clear();
   draw.draw(playArea, playBackGround);
@@ -84,6 +85,7 @@ const play = () => {
       // generates new "hills" (coloumns) after frame 0
       bckG.appendBackground(hillsHeight, playBackGround, groundChar, hillsChar);
     }
+    bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
     if (birdCol || birdPipe) {
       replay = true;
@@ -92,7 +94,6 @@ const play = () => {
       score = 0;
       scores.gameover();
     } else {
-      bird.changeBirdCoordinates(birdCoordinates, birdSpeed);
       bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
       bckG.putInSun(playBackGround, sunChar, hillsChar);
       draw.draw(playArea, playBackGround);
