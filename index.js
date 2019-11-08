@@ -24,7 +24,11 @@ const stdInput = () => {
         main.play();
       }
     }
-    if (key === 'm' && !main.playObject.playMode) {
+    if (key === 'm') {
+      if (main.playObject.game !== undefined) {
+        clearInterval(main.playObject.game);
+      }
+      main.playObject.playMode = false;
       stdin.pause();
       menu.getMenu();
     }

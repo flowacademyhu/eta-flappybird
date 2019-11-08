@@ -27,14 +27,14 @@ let birdCoordinates;
 term.inverse.bold.blue(true);
 term.inverse.bold.blue(false);
 let hillsHeight;
-let game;
 let pipeCounter;
 
 const playObject = {
   playMode: false,
   name: undefined,
   birdSpeed: 0,
-  birdFlyAcceleration: 2
+  birdFlyAcceleration: 2,
+  game: undefined
 };
 
 /** setting up and drawing playArea */
@@ -59,7 +59,7 @@ const initGame = (playerName) => {
 /** interval **/
 const play = () => {
   let countRounds = 0;
-  game = setInterval(() => {
+  playObject.game = setInterval(() => {
     const birdCol = collision.birdCollision(playArea, birdChar, birdCoordinates);
     bckG.removeSun(backLayerChar, playBackGround, sunChar);
     bird.removeBirdFromPlayArea(backgroundChar, birdCoordinates, playArea);
@@ -91,9 +91,9 @@ const play = () => {
     }
     bird.changeBirdCoordinates(birdCoordinates, playObject.birdSpeed);
     const birdPipe = collision.birdPipeCol(pipeChar, birdCoordinates, playArea);
-    if (birdCol || birdPipe) {
+    if ((birdCol || birdPipe) && playObject.name !== 'flow') {
       playObject.playMode = false;
-      clearInterval(game);
+      clearInterval(playObject.game);
       scores.writeFile(playObject.name, score);
       scores.gameover();
     } else {
