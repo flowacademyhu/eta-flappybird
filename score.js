@@ -3,6 +3,7 @@ const asTable = require('as-table');
 const center = require('center-align');
 const figlet = require('figlet');
 const term = require('terminal-kit').terminal;
+const db = require('./database');
 
 let highscore = [];
 
@@ -27,7 +28,8 @@ const fileReading = () => {
     return b.Score - a.Score;
   });
 };
-const gameover = () => {
+
+const gameover = (name, score) => {
   term.hideCursor();
   figlet('Game Over !!!', function(err, data) {
     if (err) {
@@ -36,30 +38,42 @@ const gameover = () => {
       return;
     }
     console.log(data);
-    setTimeout(scores, 1500);
+    setTimeout(() => { scores(name, score, true); }, 1500);
   });
 };
 
-const scoretable = () => {
-  term.hideCursor();
-  if (highscore.length < 10) {
+const printHighScore = (result, noResult = false) => {
+  if (noResult) {
+    console.log(center('can not connect to db', 65));
+  } else {
+    highscore = result;
     console.log(center(asTable(highscore), 65));
-  } else if (highscore.length >= 10) {
-    console.log(center(asTable(highscore.slice(0, 10)), 62));
+    highscore = [];
   }
-  highscore = [];
   console.log();
   term.dim.bold.inverse.blue(true);
   console.log(center('    Play = r     Menu = m     Exit = q    ', 63));
   term.dim.bold.inverse.blue(false);
 };
-const scores = () => {
-  fileReading();
-  scoretable();
+
+const scores = (userName, score, addScore = false) => {
+  if (addScore) {
+    db.createConnection()
+      .then(() => { db.insertIntoHighScores(userName, score); })
+      .then(() => db.getHighScores())
+      .then((result) => { printHighScore(result); })
+      .then(db.endConnection)
+      .catch(() => printHighScore(undefined, true));
+  } else {
+    db.createConnection()
+      .then(() => db.getHighScores())
+      .then((result) => { printHighScore(result); })
+      .then(db.endConnection)
+      .catch(() => printHighScore(undefined, true));
+  }
 };
 
 module.exports = {
-  writeFile: writeFile,
   scores: scores,
   gameover: gameover
 };

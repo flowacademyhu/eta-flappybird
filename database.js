@@ -6,9 +6,16 @@ const config = {
   database: 'YndIVQxdNP'
 };
 
-const connection = mysql.createConnection(config);
+let connection;
 const insertQuery = (name, score) => {
   return 'INSERT INTO HighScores (name, score) VALUES (\'' + name + '\', ' + score + ');';
+};
+
+const createConnection = () => {
+  return new Promise((resolve, reject) => {
+    connection = mysql.createConnection(config);
+    resolve();
+  });
 };
 
 const insertIntoHighScores = (name, score) => {
@@ -21,7 +28,7 @@ const insertIntoHighScores = (name, score) => {
 };
 
 const getHighScores = () => {
-  const selectQuery = 'SELECT * FROM HighScores';
+  const selectQuery = 'SELECT name, score FROM HighScores ORDER BY score DESC, id DESC LIMIT 10';
   return new Promise((resolve, reject) => {
     connection.query(selectQuery, (err, results) => {
       if (err) throw err;
@@ -37,21 +44,15 @@ const endConnection = () => {
   });
 };
 
-const logScores = () => {
-  getHighScores()
-    .then((result) => {
-      console.log(result);
-    })
-    .then(() => { return endConnection(); });
-};
-
-// MŰKÖDIK!!!
-// insertIntoHighScores('thelegend27', 999)
+// endConnection()
+//   .then(createConnection)
+//   .then(() => { insertIntoHighScores('jano1', 20); })
 //   .then(() => getHighScores())
 //   .then((result) => { console.log(result); })
 //   .then(endConnection);
 
 module.exports = {
+  createConnection: createConnection,
   insertIntoHighScores: insertIntoHighScores,
   getHighScores: getHighScores,
   endConnection: endConnection
