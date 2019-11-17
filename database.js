@@ -8,6 +8,7 @@ const config = {
 
 let connection;
 const insertQuery = (name, score) => {
+  if (name.length > 20 || !/^[a-zA-Z0-9]+$/.test(name) || !Number.isInteger(score)) throw Error;
   return 'INSERT INTO HighScores (name, score) VALUES (\'' + name + '\', ' + score + ');';
 };
 
@@ -21,7 +22,7 @@ const createConnection = () => {
 const insertIntoHighScores = (name, score) => {
   return new Promise((resolve, reject) => {
     connection.query(insertQuery(name, score), (err, result) => {
-      if (err) throw err;
+      if (err) reject(err);
       resolve();
     });
   });
@@ -31,7 +32,7 @@ const getHighScores = () => {
   const selectQuery = 'SELECT name, score FROM HighScores ORDER BY score DESC, id DESC LIMIT 10';
   return new Promise((resolve, reject) => {
     connection.query(selectQuery, (err, results) => {
-      if (err) throw err;
+      if (err) reject(err);
       resolve(results);
     });
   });

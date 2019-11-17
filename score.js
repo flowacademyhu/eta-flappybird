@@ -1,4 +1,3 @@
-const fs = require('fs');
 const asTable = require('as-table');
 const center = require('center-align');
 const figlet = require('figlet');
@@ -7,31 +6,9 @@ const db = require('./database');
 
 let highscore = [];
 
-const writeFile = (userName, score) => {
-  fs.appendFileSync('score.txt', userName + ';' + score + '\n', { encoding: 'utf8' });
-};
-
-const fileReading = () => {
-  const content = fs.readFileSync('score.txt', { encoding: 'utf8' });
-  const rows = content.split('\n');
-
-  for (let i = 0; i < rows.length - 1; i++) {
-    const row = rows[i].split(';');
-    const tempObj = {
-      Name: row[0],
-      Score: row[1]
-    };
-    highscore.push(tempObj);
-  }
-
-  highscore = highscore.sort(function(a, b) {
-    return b.Score - a.Score;
-  });
-};
-
 const gameover = (name, score) => {
   term.hideCursor();
-  figlet('Game Over !!!', function(err, data) {
+  figlet('Game Over !!!', function (err, data) {
     if (err) {
       console.log('Something went wrong...');
       console.dir(err);
