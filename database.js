@@ -55,7 +55,7 @@ const getScoresFromDB = async (func, name, score) => {
     func(result);
     await endConnection();
   } catch (e) {
-    func(undefined, true);
+    func();
   }
 };
 

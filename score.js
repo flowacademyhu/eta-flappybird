@@ -19,8 +19,8 @@ const gameover = (name, score) => {
   });
 };
 
-const printHighScore = (result, noResult = false) => {
-  if (noResult) {
+const printHighScore = (result) => {
+  if (result === undefined) {
     console.log(center('can not connect to db', 65));
   } else {
     highscore = result;
@@ -33,12 +33,8 @@ const printHighScore = (result, noResult = false) => {
   term.dim.bold.inverse.blue(false);
 };
 
-const scores = (userName, score, addScore = false) => {
-  if (addScore) {
-    db.getScoresFromDB(printHighScore, userName, score);
-  } else {
-    db.getScoresFromDB(printHighScore);
-  }
+const scores = (userName, score) => {
+  db.getScoresFromDB(printHighScore, userName, score);
 };
 
 module.exports = {

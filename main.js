@@ -125,7 +125,7 @@ const play = () => {
       sounds.die();
       playObject.playMode = false;
       clearInterval(playObject.game);
-      scores.gameover(playObject.name, score, true);
+      scores.gameover(playObject.name, score);
     } else {
       bird.putBirdInPlayArea(birdChar, birdCoordinates, playArea);
       bckG.putInSun(playBackGround, sunChar, hillsChar);
