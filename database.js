@@ -45,6 +45,20 @@ const endConnection = () => {
   });
 };
 
+const getScoresFromDB = async (func, name, score) => {
+  try {
+    await createConnection();
+    if (name !== undefined && score !== undefined) {
+      await insertIntoHighScores(name, score);
+    }
+    const result = await getHighScores();
+    func(result);
+    await endConnection();
+  } catch (e) {
+    func(undefined, true);
+  }
+};
+
 // endConnection()
 //   .then(createConnection)
 //   .then(() => { insertIntoHighScores('jano1', 20); })
@@ -58,3 +72,6 @@ module.exports = {
   getHighScores: getHighScores,
   endConnection: endConnection
 };
+
+// getScoresFromDB((result) => { console.log(result); }, 'ja no', 7);
+// console.log('ez hamarabb jon');
