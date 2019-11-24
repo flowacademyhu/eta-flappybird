@@ -35,18 +35,9 @@ const printHighScore = (result, noResult = false) => {
 
 const scores = (userName, score, addScore = false) => {
   if (addScore) {
-    db.createConnection()
-      .then(() => { db.insertIntoHighScores(userName, score); })
-      .then(() => db.getHighScores())
-      .then((result) => { printHighScore(result); })
-      .then(db.endConnection)
-      .catch(() => printHighScore(undefined, true));
+    db.getScoresFromDB(printHighScore, userName, score);
   } else {
-    db.createConnection()
-      .then(() => db.getHighScores())
-      .then((result) => { printHighScore(result); })
-      .then(db.endConnection)
-      .catch(() => printHighScore(undefined, true));
+    db.getScoresFromDB(printHighScore);
   }
 };
 

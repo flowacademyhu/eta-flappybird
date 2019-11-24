@@ -67,10 +67,7 @@ const getScoresFromDB = async (func, name, score) => {
 //   .then(endConnection);
 
 module.exports = {
-  createConnection: createConnection,
-  insertIntoHighScores: insertIntoHighScores,
-  getHighScores: getHighScores,
-  endConnection: endConnection
+  getScoresFromDB: getScoresFromDB
 };
 
 // getScoresFromDB((result) => { console.log(result); }, 'ja no', 7);
