@@ -59,16 +59,6 @@ const getScoresFromDB = async (func, name, score) => {
   }
 };
 
-// endConnection()
-//   .then(createConnection)
-//   .then(() => { insertIntoHighScores('jano1', 20); })
-//   .then(() => getHighScores())
-//   .then((result) => { console.log(result); })
-//   .then(endConnection);
-
 module.exports = {
   getScoresFromDB: getScoresFromDB
 };
-
-// getScoresFromDB((result) => { console.log(result); }, 'ja no', 7);
-// console.log('ez hamarabb jon');
