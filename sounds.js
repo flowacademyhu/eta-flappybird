@@ -5,19 +5,27 @@ const playWing = new mpg.MpgPlayer();
 const playPoint = new mpg.MpgPlayer();
 
 const music = () => {
-  playMusic.play('music.mp3');
+  try {
+    playMusic.play('music.mp3');
+  } catch (e) {}
 };
 const point = () => {
-  playPoint.play('sfx_point.mp3');
+  try {
+    playPoint.play('sfx_point.mp3');
+  } catch (e) {}
 }
 ;
 const wing = () => {
-  playWing.play('sfx_wing.mp3');
+  try {
+    playWing.play('sfx_wing.mp3');
+  } catch (e) {}
 }
 ;
 
 const die = () => {
-  playDie.play('sfx_die.mp3');
+  try {
+    playDie.play('sfx_die.mp3');
+  } catch (e) {}
 };
 
 module.exports = {
