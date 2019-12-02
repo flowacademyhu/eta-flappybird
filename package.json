@@ -1,8 +1,10 @@
 {
   "name": "eta-flappybird",
   "version": "1.0.0",
-  "description": "Ebből lesz a Flappy Bird.",
-  "main": "index.js",
+  "description": "Flappybird for linux terminal",
+  "bin": {
+    "eta-flappybird": "./bin/eta-flappybird"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/flowacademyhu/eta-flappybird.git"
   },
-  "author": "",
+  "author": "Tomi, Peti, Jano",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/flowacademyhu/eta-flappybird/issues"
