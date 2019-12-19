@@ -1,5 +1,5 @@
 {
-  "name": "eta-flappybird",
+  "name": "@flowacademy/eta-flappybird",
   "version": "1.0.0",
   "description": "Flappybird for linux terminal",
   "bin": {
