@@ -3,8 +3,8 @@
 const menu = require('../lib/menu');
 const main = require('../lib/main');
 const sounds = require('../lib/sounds');
-sounds.music();
-setInterval(sounds.music, 310000);
+// sounds.music();
+// setInterval(sounds.music, 310000);
 
 const stdInput = () => {
   /** standard input **/
@@ -18,7 +18,7 @@ const stdInput = () => {
       process.exit();
     }
     if (key === ' ' && main.playObject.playMode) {
-      sounds.wing();
+      // sounds.wing();
       main.playObject.birdSpeed = main.playObject.birdFlyAcceleration;
     }
     if (key === 'r' && !main.playObject.playMode) {
